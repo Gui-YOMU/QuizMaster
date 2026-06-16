@@ -1,40 +1,54 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../../../contexts/AuthContext";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { QuizQueries } from "../../../../core/infrastructure/queries/QuizQueries";
-import type { Quiz } from "../../../../core/domain/entities/Quiz";
 import { useNavigate } from "react-router";
 import { useEditor } from "../../../contexts/EditorContext";
+import { useGame } from "../../../contexts/GameContext";
 
 export function useQuizListPageViewModel() {
   const { userId } = useAuth();
   const { openEditor } = useEditor();
+  const { socket } = useGame();
+
+  const {
+    isPending,
+    isError,
+    data: quizList,
+    error,
+  } = useQuery(QuizQueries.findAllQuizByUser(userId ? parseInt(userId) : 0));
+
+  useEffect(() => {
+    queryClient.invalidateQueries({
+      queryKey: ["quizByUser", userId ? parseInt(userId) : 0],
+    });
+    if (isError) {
+      toast.error(error.message);
+    }
+  }, [isError, error]);
 
   const [isQuizModalOpen, setIsQuizModalOpen] = useState(false);
   const [isRoomModalOpen, setIsRoomModalOpen] = useState(false);
 
   const [quizName, setQuizName] = useState("");
   const [description, setDescription] = useState("");
-  const [roomName, setRoomName] = useState("");
 
   const [selectedQuizId, setSelectedQuizId] = useState<number | null>(null);
-  const [selectedQuiz, setSelectedQuiz] = useState<Quiz | null>(null);
-
-  const { data: selectedQuizData } = useQuery({
-    ...QuizQueries.findQuizById(selectedQuizId ?? 0),
-    enabled: selectedQuizId !== null,
-  });
 
   const Navigate = useNavigate();
 
+  const selectedQuiz = useMemo(
+    () => quizList?.find((quiz) => quiz.id === selectedQuizId) ?? null,
+    [quizList, selectedQuizId],
+  );
+
   useEffect(() => {
-    if (selectedQuizData) {
-      setSelectedQuiz(selectedQuizData);
-      setQuizName(selectedQuizData.quizName);
-      setDescription(selectedQuizData.description ?? "");
+    if (selectedQuiz) {
+      setQuizName(selectedQuiz.quizName);
+      setDescription(selectedQuiz.description ?? "");
     }
-  }, [selectedQuizData]);
+  }, [selectedQuiz]);
 
   const onUpdateQuizClick = (quizId: number) => {
     setSelectedQuizId(quizId);
@@ -102,29 +116,18 @@ export function useQuizListPageViewModel() {
 
   const onRoomSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(`${roomName} ouverte.`);
+    socket?.emit("create-room", { hostId: userId, quizId: selectedQuizId });
+    console.log(`Salle ${selectedQuizId} ouverte.`);
+    socket?.on("room-created", ({ roomCode }: { roomCode: string }) => {
+      console.log(roomCode);
+      Navigate(`/roomMain/${roomCode}`);
+    });
   };
 
   const onEditQuizClick = (quizId: number) => {
     openEditor(quizId);
     Navigate(`/quizMain/${quizId}`);
   };
-
-  const {
-    isPending,
-    isError,
-    data: quizList,
-    error,
-  } = useQuery(QuizQueries.findAllQuizByUser(userId ? parseInt(userId) : 0));
-
-  useEffect(() => {
-    queryClient.invalidateQueries({
-      queryKey: ["quizByUser", userId ? parseInt(userId) : 0],
-    });
-    if (isError) {
-      toast.error(error.message);
-    }
-  }, [isError, error]);
 
   return {
     isPending,
@@ -145,7 +148,7 @@ export function useQuizListPageViewModel() {
     onDelete,
     onEditQuizClick,
     onStartGameClick,
-    setRoomName,
     onRoomSubmit,
+    setSelectedQuizId,
   };
 }

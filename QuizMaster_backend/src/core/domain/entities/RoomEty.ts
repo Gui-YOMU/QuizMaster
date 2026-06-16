@@ -1,7 +1,6 @@
 export class RoomEty {
   constructor(
     public readonly id: number,
-    public roomName: string,
     public roomCode: string,
     public id_user: number,
     public id_quiz: number,

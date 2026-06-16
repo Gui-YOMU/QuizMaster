@@ -42,7 +42,6 @@ model Quiz {
 
 model Room {
   id             Int              @id @default(autoincrement())
-  roomName       String           @db.VarChar(50)
   roomCode       String           @db.Char(8)
   createdAt      DateTime         @default(now())
   user           User             @relation(fields: [id_user], references: [id], onDelete: Cascade)

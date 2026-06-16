@@ -2,13 +2,16 @@ import { ToastContainer, Zoom } from "react-toastify";
 import { AuthProvider } from "./presentation/contexts/AuthContext.tsx";
 import AllRoutes from "./presentation/routes/AllRoutes.tsx";
 import { EditorProvider } from "./presentation/contexts/EditorContext.tsx";
+import { GameProvider } from "./presentation/contexts/GameContext.tsx";
 
 function App() {
   return (
     <>
       <AuthProvider>
         <EditorProvider>
-          <AllRoutes />
+          <GameProvider>
+            <AllRoutes />
+          </GameProvider>
         </EditorProvider>
       </AuthProvider>
       <ToastContainer

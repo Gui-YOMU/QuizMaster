@@ -155,7 +155,6 @@ exports.Prisma.QuizScalarFieldEnum = {
 
 exports.Prisma.RoomScalarFieldEnum = {
   id: 'id',
-  roomName: 'roomName',
   roomCode: 'roomCode',
   createdAt: 'createdAt',
   id_user: 'id_user',
@@ -223,7 +222,6 @@ exports.Prisma.QuizOrderByRelevanceFieldEnum = {
 };
 
 exports.Prisma.RoomOrderByRelevanceFieldEnum = {
-  roomName: 'roomName',
   roomCode: 'roomCode'
 };
 

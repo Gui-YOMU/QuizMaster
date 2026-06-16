@@ -40,8 +40,8 @@ export const QuizListPage = () => {
       {vm.isRoomModalOpen && (
         <RoomModal
           selectedQuiz={vm.selectedQuiz}
+          onSelect={vm.setSelectedQuizId}
           onClick={() => vm.setIsRoomModalOpen(false)}
-          setRoomName={vm.setRoomName}
           onSubmit={vm.onRoomSubmit}
           quizList={vm.quizList ?? []}
         />

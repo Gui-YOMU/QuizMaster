@@ -30,7 +30,7 @@ export const EditorProvider = ({ children }: { children: React.ReactNode }) => {
 
 export function useEditor() {
   const ctxt = useContext(EditorContext);
-  if (!ctxt) throw new Error("La fonction useAuth a besoin d'un provider.")
+  if (!ctxt) throw new Error("La fonction useEditor a besoin d'un provider.")
   return ctxt;
 }
 

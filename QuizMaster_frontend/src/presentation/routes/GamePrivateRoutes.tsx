@@ -1,4 +1,5 @@
 import { GameLayout } from "../components/templates/GameLayout/GameLayout";
+import { RoomMainPage } from "../pages/game/RoomMainPage/RoomMainPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 
 export const GamePrivateRoutes = [
@@ -8,10 +9,10 @@ export const GamePrivateRoutes = [
       {
         element: <GameLayout />,
         children: [
-          // {
-          //   path: "",
-          //   element: ,
-          // },
+          {
+            path: "/roomMain/:roomCode",
+            element: <RoomMainPage />,
+          },
         ],
       },
     ],

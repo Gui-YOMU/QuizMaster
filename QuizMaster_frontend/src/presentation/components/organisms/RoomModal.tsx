@@ -1,25 +1,25 @@
 import { X } from "lucide-react";
 import { IconButton } from "../atoms/IconButton";
-import { FormItem } from "../molecules/FormItem";
 import { Button } from "../atoms/Button";
 import { Label } from "../atoms/Label";
 import type { Quiz } from "../../../core/domain/entities/Quiz";
 
 interface RoomModalProps {
   quizList: Quiz[];
+  onSelect: React.Dispatch<React.SetStateAction<number | null>>;
   onClick: React.MouseEventHandler<HTMLButtonElement | HTMLDivElement>;
-  setRoomName: React.Dispatch<React.SetStateAction<string>>;
   onSubmit: (e: React.SubmitEvent<HTMLFormElement>) => void;
   selectedQuiz?: Quiz | null;
 }
 
 export const RoomModal = ({
   quizList,
+  onSelect,
   onClick,
-  setRoomName,
   onSubmit,
   selectedQuiz,
 }: RoomModalProps) => {
+
   return (
     <div
       className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
@@ -43,15 +43,6 @@ export const RoomModal = ({
             className="border-border border rounded-lg bg-bg p-5 w-9/10 h-9/10 flex flex-col justify-center gap-5"
             onSubmit={onSubmit}
           >
-            <FormItem
-              color="black"
-              name="roomName"
-              content="Nom de la salle"
-              type="text"
-              placeholder="Nom"
-              mandatory={true}
-              onChange={(e) => setRoomName(e.target.value)}
-            />
             <div className="h-1/2 flex flex-col">
               <Label
                 htmlFor="description"
@@ -59,13 +50,12 @@ export const RoomModal = ({
                 mandatory={true}
                 color="black"
               />
-              <select className="bg-card border border-border rounded-lg pt-1 pb-1 pr-4 pl-4 w-full">
+              <select value={selectedQuiz?.id?.toString() ?? ""} onChange={(e) => onSelect(e.target.value ? Number(e.target.value) : null)} className="bg-card border border-border rounded-lg pt-1 pb-1 pr-4 pl-4 w-full">
                 <option value="">Liste des quiz</option>
                 {quizList.map((quiz) => (
                   <option
                     key={quiz.id}
                     value={quiz.id?.toString()}
-                    selected={selectedQuiz?.id === quiz.id}
                   >
                     {quiz.quizName}
                   </option>

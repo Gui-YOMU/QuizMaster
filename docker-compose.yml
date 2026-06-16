@@ -11,12 +11,26 @@ services:
     build: ./QuizMaster_backend
     container_name: quizmaster_backend
     restart: always
+    depends_on:
+      - db:
+        condition: service_started
+        restart: true
 
     env_file:
       - ./QuizMaster_backend/.env
 
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-
     ports:
       - "3009:3009"
+
+  db:
+    image: mysql:8.2
+    restart: always
+    container_name: quizmaster_db
+    environment:
+      - DATABASE_URL="mysql://root:@localhost:3306/quizmaster_db"
+      - DATABASE_USER="root"
+      - DATABASE_PASSWORD=""
+      - DATABASE_NAME="quizmaster_db"
+      - DATABASE_HOST="localhost"
+      - DATABASE_PORT=3306
+

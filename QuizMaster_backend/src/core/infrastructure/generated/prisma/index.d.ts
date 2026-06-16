@@ -5751,7 +5751,6 @@ export namespace Prisma {
 
   export type RoomMinAggregateOutputType = {
     id: number | null
-    roomName: string | null
     roomCode: string | null
     createdAt: Date | null
     id_user: number | null
@@ -5760,7 +5759,6 @@ export namespace Prisma {
 
   export type RoomMaxAggregateOutputType = {
     id: number | null
-    roomName: string | null
     roomCode: string | null
     createdAt: Date | null
     id_user: number | null
@@ -5769,7 +5767,6 @@ export namespace Prisma {
 
   export type RoomCountAggregateOutputType = {
     id: number
-    roomName: number
     roomCode: number
     createdAt: number
     id_user: number
@@ -5792,7 +5789,6 @@ export namespace Prisma {
 
   export type RoomMinAggregateInputType = {
     id?: true
-    roomName?: true
     roomCode?: true
     createdAt?: true
     id_user?: true
@@ -5801,7 +5797,6 @@ export namespace Prisma {
 
   export type RoomMaxAggregateInputType = {
     id?: true
-    roomName?: true
     roomCode?: true
     createdAt?: true
     id_user?: true
@@ -5810,7 +5805,6 @@ export namespace Prisma {
 
   export type RoomCountAggregateInputType = {
     id?: true
-    roomName?: true
     roomCode?: true
     createdAt?: true
     id_user?: true
@@ -5906,7 +5900,6 @@ export namespace Prisma {
 
   export type RoomGroupByOutputType = {
     id: number
-    roomName: string
     roomCode: string
     createdAt: Date
     id_user: number
@@ -5934,7 +5927,6 @@ export namespace Prisma {
 
   export type RoomSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    roomName?: boolean
     roomCode?: boolean
     createdAt?: boolean
     id_user?: boolean
@@ -5950,14 +5942,13 @@ export namespace Prisma {
 
   export type RoomSelectScalar = {
     id?: boolean
-    roomName?: boolean
     roomCode?: boolean
     createdAt?: boolean
     id_user?: boolean
     id_quiz?: boolean
   }
 
-  export type RoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roomName" | "roomCode" | "createdAt" | "id_user" | "id_quiz", ExtArgs["result"]["room"]>
+  export type RoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roomCode" | "createdAt" | "id_user" | "id_quiz", ExtArgs["result"]["room"]>
   export type RoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     quiz?: boolean | QuizDefaultArgs<ExtArgs>
@@ -5976,7 +5967,6 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      roomName: string
       roomCode: string
       createdAt: Date
       id_user: number
@@ -6355,7 +6345,6 @@ export namespace Prisma {
    */
   interface RoomFieldRefs {
     readonly id: FieldRef<"Room", 'Int'>
-    readonly roomName: FieldRef<"Room", 'String'>
     readonly roomCode: FieldRef<"Room", 'String'>
     readonly createdAt: FieldRef<"Room", 'DateTime'>
     readonly id_user: FieldRef<"Room", 'Int'>
@@ -9981,7 +9970,6 @@ export namespace Prisma {
 
   export const RoomScalarFieldEnum: {
     id: 'id',
-    roomName: 'roomName',
     roomCode: 'roomCode',
     createdAt: 'createdAt',
     id_user: 'id_user',
@@ -10079,7 +10067,6 @@ export namespace Prisma {
 
 
   export const RoomOrderByRelevanceFieldEnum: {
-    roomName: 'roomName',
     roomCode: 'roomCode'
   };
 
@@ -10418,7 +10405,6 @@ export namespace Prisma {
     OR?: RoomWhereInput[]
     NOT?: RoomWhereInput | RoomWhereInput[]
     id?: IntFilter<"Room"> | number
-    roomName?: StringFilter<"Room"> | string
     roomCode?: StringFilter<"Room"> | string
     createdAt?: DateTimeFilter<"Room"> | Date | string
     id_user?: IntFilter<"Room"> | number
@@ -10431,7 +10417,6 @@ export namespace Prisma {
 
   export type RoomOrderByWithRelationInput = {
     id?: SortOrder
-    roomName?: SortOrder
     roomCode?: SortOrder
     createdAt?: SortOrder
     id_user?: SortOrder
@@ -10448,7 +10433,6 @@ export namespace Prisma {
     AND?: RoomWhereInput | RoomWhereInput[]
     OR?: RoomWhereInput[]
     NOT?: RoomWhereInput | RoomWhereInput[]
-    roomName?: StringFilter<"Room"> | string
     roomCode?: StringFilter<"Room"> | string
     createdAt?: DateTimeFilter<"Room"> | Date | string
     id_user?: IntFilter<"Room"> | number
@@ -10461,7 +10445,6 @@ export namespace Prisma {
 
   export type RoomOrderByWithAggregationInput = {
     id?: SortOrder
-    roomName?: SortOrder
     roomCode?: SortOrder
     createdAt?: SortOrder
     id_user?: SortOrder
@@ -10478,7 +10461,6 @@ export namespace Prisma {
     OR?: RoomScalarWhereWithAggregatesInput[]
     NOT?: RoomScalarWhereWithAggregatesInput | RoomScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Room"> | number
-    roomName?: StringWithAggregatesFilter<"Room"> | string
     roomCode?: StringWithAggregatesFilter<"Room"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Room"> | Date | string
     id_user?: IntWithAggregatesFilter<"Room"> | number
@@ -10943,7 +10925,6 @@ export namespace Prisma {
   }
 
   export type RoomCreateInput = {
-    roomName: string
     roomCode: string
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutRoomsInput
@@ -10954,7 +10935,6 @@ export namespace Prisma {
 
   export type RoomUncheckedCreateInput = {
     id?: number
-    roomName: string
     roomCode: string
     createdAt?: Date | string
     id_user: number
@@ -10964,7 +10944,6 @@ export namespace Prisma {
   }
 
   export type RoomUpdateInput = {
-    roomName?: StringFieldUpdateOperationsInput | string
     roomCode?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutRoomsNestedInput
@@ -10975,7 +10954,6 @@ export namespace Prisma {
 
   export type RoomUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    roomName?: StringFieldUpdateOperationsInput | string
     roomCode?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     id_user?: IntFieldUpdateOperationsInput | number
@@ -10986,7 +10964,6 @@ export namespace Prisma {
 
   export type RoomCreateManyInput = {
     id?: number
-    roomName: string
     roomCode: string
     createdAt?: Date | string
     id_user: number
@@ -10994,14 +10971,12 @@ export namespace Prisma {
   }
 
   export type RoomUpdateManyMutationInput = {
-    roomName?: StringFieldUpdateOperationsInput | string
     roomCode?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RoomUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    roomName?: StringFieldUpdateOperationsInput | string
     roomCode?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     id_user?: IntFieldUpdateOperationsInput | number
@@ -11636,7 +11611,6 @@ export namespace Prisma {
 
   export type RoomCountOrderByAggregateInput = {
     id?: SortOrder
-    roomName?: SortOrder
     roomCode?: SortOrder
     createdAt?: SortOrder
     id_user?: SortOrder
@@ -11651,7 +11625,6 @@ export namespace Prisma {
 
   export type RoomMaxOrderByAggregateInput = {
     id?: SortOrder
-    roomName?: SortOrder
     roomCode?: SortOrder
     createdAt?: SortOrder
     id_user?: SortOrder
@@ -11660,7 +11633,6 @@ export namespace Prisma {
 
   export type RoomMinOrderByAggregateInput = {
     id?: SortOrder
-    roomName?: SortOrder
     roomCode?: SortOrder
     createdAt?: SortOrder
     id_user?: SortOrder
@@ -13212,7 +13184,6 @@ export namespace Prisma {
   }
 
   export type RoomCreateWithoutQuizInput = {
-    roomName: string
     roomCode: string
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutRoomsInput
@@ -13222,7 +13193,6 @@ export namespace Prisma {
 
   export type RoomUncheckedCreateWithoutQuizInput = {
     id?: number
-    roomName: string
     roomCode: string
     createdAt?: Date | string
     id_user: number
@@ -13328,7 +13298,6 @@ export namespace Prisma {
     OR?: RoomScalarWhereInput[]
     NOT?: RoomScalarWhereInput | RoomScalarWhereInput[]
     id?: IntFilter<"Room"> | number
-    roomName?: StringFilter<"Room"> | string
     roomCode?: StringFilter<"Room"> | string
     createdAt?: DateTimeFilter<"Room"> | Date | string
     id_user?: IntFilter<"Room"> | number
@@ -13558,7 +13527,6 @@ export namespace Prisma {
   }
 
   export type RoomCreateWithoutTeamsInput = {
-    roomName: string
     roomCode: string
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutRoomsInput
@@ -13568,7 +13536,6 @@ export namespace Prisma {
 
   export type RoomUncheckedCreateWithoutTeamsInput = {
     id?: number
-    roomName: string
     roomCode: string
     createdAt?: Date | string
     id_user: number
@@ -13650,7 +13617,6 @@ export namespace Prisma {
   }
 
   export type RoomUpdateWithoutTeamsInput = {
-    roomName?: StringFieldUpdateOperationsInput | string
     roomCode?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutRoomsNestedInput
@@ -13660,7 +13626,6 @@ export namespace Prisma {
 
   export type RoomUncheckedUpdateWithoutTeamsInput = {
     id?: IntFieldUpdateOperationsInput | number
-    roomName?: StringFieldUpdateOperationsInput | string
     roomCode?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     id_user?: IntFieldUpdateOperationsInput | number
@@ -13716,7 +13681,6 @@ export namespace Prisma {
   }
 
   export type RoomCreateWithoutTeamToQuestionInput = {
-    roomName: string
     roomCode: string
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutRoomsInput
@@ -13726,7 +13690,6 @@ export namespace Prisma {
 
   export type RoomUncheckedCreateWithoutTeamToQuestionInput = {
     id?: number
-    roomName: string
     roomCode: string
     createdAt?: Date | string
     id_user: number
@@ -13803,7 +13766,6 @@ export namespace Prisma {
   }
 
   export type RoomUpdateWithoutTeamToQuestionInput = {
-    roomName?: StringFieldUpdateOperationsInput | string
     roomCode?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutRoomsNestedInput
@@ -13813,7 +13775,6 @@ export namespace Prisma {
 
   export type RoomUncheckedUpdateWithoutTeamToQuestionInput = {
     id?: IntFieldUpdateOperationsInput | number
-    roomName?: StringFieldUpdateOperationsInput | string
     roomCode?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     id_user?: IntFieldUpdateOperationsInput | number
@@ -13915,7 +13876,6 @@ export namespace Prisma {
   }
 
   export type RoomCreateWithoutUserInput = {
-    roomName: string
     roomCode: string
     createdAt?: Date | string
     quiz: QuizCreateNestedOneWithoutRoomsInput
@@ -13925,7 +13885,6 @@ export namespace Prisma {
 
   export type RoomUncheckedCreateWithoutUserInput = {
     id?: number
-    roomName: string
     roomCode: string
     createdAt?: Date | string
     id_quiz: number
@@ -14115,7 +14074,6 @@ export namespace Prisma {
 
   export type RoomCreateManyQuizInput = {
     id?: number
-    roomName: string
     roomCode: string
     createdAt?: Date | string
     id_user: number
@@ -14154,7 +14112,6 @@ export namespace Prisma {
   }
 
   export type RoomUpdateWithoutQuizInput = {
-    roomName?: StringFieldUpdateOperationsInput | string
     roomCode?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutRoomsNestedInput
@@ -14164,7 +14121,6 @@ export namespace Prisma {
 
   export type RoomUncheckedUpdateWithoutQuizInput = {
     id?: IntFieldUpdateOperationsInput | number
-    roomName?: StringFieldUpdateOperationsInput | string
     roomCode?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     id_user?: IntFieldUpdateOperationsInput | number
@@ -14174,7 +14130,6 @@ export namespace Prisma {
 
   export type RoomUncheckedUpdateManyWithoutQuizInput = {
     id?: IntFieldUpdateOperationsInput | number
-    roomName?: StringFieldUpdateOperationsInput | string
     roomCode?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     id_user?: IntFieldUpdateOperationsInput | number
@@ -14326,7 +14281,6 @@ export namespace Prisma {
 
   export type RoomCreateManyUserInput = {
     id?: number
-    roomName: string
     roomCode: string
     createdAt?: Date | string
     id_quiz: number
@@ -14360,7 +14314,6 @@ export namespace Prisma {
   }
 
   export type RoomUpdateWithoutUserInput = {
-    roomName?: StringFieldUpdateOperationsInput | string
     roomCode?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUpdateOneRequiredWithoutRoomsNestedInput
@@ -14370,7 +14323,6 @@ export namespace Prisma {
 
   export type RoomUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
-    roomName?: StringFieldUpdateOperationsInput | string
     roomCode?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     id_quiz?: IntFieldUpdateOperationsInput | number
@@ -14380,7 +14332,6 @@ export namespace Prisma {
 
   export type RoomUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
-    roomName?: StringFieldUpdateOperationsInput | string
     roomCode?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     id_quiz?: IntFieldUpdateOperationsInput | number

@@ -71,8 +71,9 @@ export const CreatorDashboardPage = () => {
           )}
           {vm.isRoomModalOpen && (
             <RoomModal
+              selectedQuiz={vm.selectedQuiz}
               onClick={() => vm.setIsRoomModalOpen(false)}
-              setRoomName={vm.setRoomName}
+              onSelect={vm.setSelectedQuizId}
               onSubmit={vm.onRoomSubmit}
               quizList={vm.quizList ?? []}
             />
