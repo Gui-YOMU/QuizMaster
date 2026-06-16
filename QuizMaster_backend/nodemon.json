@@ -1,0 +1,4 @@
+{
+    "ext": "css,json,js,ts,twig,prisma",
+    "exec": "tsx src/server.ts"
+}

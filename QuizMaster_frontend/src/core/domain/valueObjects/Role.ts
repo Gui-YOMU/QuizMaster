@@ -1,0 +1,1 @@
+export type Role = "creator" | "player" | "admin";

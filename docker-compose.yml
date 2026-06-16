@@ -1,0 +1,22 @@
+services:
+
+  frontend:
+    build: ./QuizMaster_frontend
+    container_name: quizmaster_frontend
+    restart: always
+    ports:
+      - "8080:80"
+
+  backend:
+    build: ./QuizMaster_backend
+    container_name: quizmaster_backend
+    restart: always
+
+    env_file:
+      - ./QuizMaster_backend/.env
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    ports:
+      - "3009:3009"

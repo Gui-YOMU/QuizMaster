@@ -1,0 +1,1 @@
+export { HttpQuizRepository } from "./HttpQuizRepository";

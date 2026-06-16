@@ -1,0 +1,1 @@
+export { HttpUserRepository } from "./HttpUserRepository";

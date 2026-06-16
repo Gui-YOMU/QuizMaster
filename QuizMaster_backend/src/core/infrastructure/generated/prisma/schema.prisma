@@ -1,0 +1,113 @@
+model Answer {
+  id           Int      @id @default(autoincrement())
+  letter       String?  @db.Char(1)
+  value        String   @db.VarChar(100)
+  isGoodAnswer Boolean
+  question     Question @relation(fields: [id_question], references: [id], onDelete: Cascade)
+  id_question  Int
+}
+
+model Item {
+  id          Int      @id @default(autoincrement())
+  content     String   @db.VarChar(100)
+  question    Question @relation(fields: [id_question], references: [id], onDelete: Cascade)
+  id_question Int
+}
+
+model Question {
+  id             Int              @id @default(autoincrement())
+  type           String?          @db.VarChar(50)
+  subject        String?          @db.VarChar(50)
+  query          String           @default("QUESTION") @db.VarChar(500)
+  timer          Int              @default(10)
+  points         Int              @default(20)
+  answers        Answer[]
+  items          Item[]
+  quiz           Quiz             @relation(fields: [id_quiz], references: [id], onDelete: Cascade)
+  id_quiz        Int
+  teamToQuestion TeamToQuestion[]
+}
+
+model Quiz {
+  id          Int        @id @default(autoincrement())
+  quizName    String     @db.VarChar(50)
+  description String?    @db.Text
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime?
+  questions   Question[]
+  user        User       @relation(fields: [id_user], references: [id], onDelete: Cascade)
+  id_user     Int
+  rooms       Room[]
+}
+
+model Room {
+  id             Int              @id @default(autoincrement())
+  roomName       String           @db.VarChar(50)
+  roomCode       String           @db.Char(8)
+  createdAt      DateTime         @default(now())
+  user           User             @relation(fields: [id_user], references: [id], onDelete: Cascade)
+  id_user        Int
+  quiz           Quiz             @relation(fields: [id_quiz], references: [id], onDelete: Cascade)
+  id_quiz        Int
+  teams          Team[]
+  teamToQuestion TeamToQuestion[]
+}
+
+model Team {
+  id             Int              @id @default(autoincrement())
+  teamName       String           @db.VarChar(50)
+  teamScore      Int?
+  teamRank       Int?
+  teamBadAnswers Int?
+  room           Room             @relation(fields: [id_room], references: [id])
+  id_room        Int
+  teamToQuestion TeamToQuestion[]
+  users          User[]
+}
+
+model TeamToQuestion {
+  id          Int      @id @default(autoincrement())
+  room        Room     @relation(fields: [id_room], references: [id])
+  id_room     Int
+  team        Team     @relation(fields: [id_team], references: [id])
+  id_team     Int
+  question    Question @relation(fields: [id_question], references: [id])
+  id_question Int
+  teamAnswer  String?  @db.VarChar(100)
+  result      Boolean?
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  lastName  String    @db.VarChar(100)
+  firstName String    @db.VarChar(100)
+  surname   String?   @unique @db.VarChar(50)
+  mail      String    @unique @db.VarChar(150)
+  password  String    @db.Text
+  role      Role      @default(player)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+  quiz      Quiz[]
+  rooms     Room[]
+  teams     Team[]
+}
+
+enum Role {
+  player
+  creator
+  admin
+}
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/core/infrastructure/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
