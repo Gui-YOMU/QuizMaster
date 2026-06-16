@@ -1,20 +1,20 @@
 -- DropForeignKey
-ALTER TABLE `answer` DROP FOREIGN KEY `Answer_id_question_fkey`;
+ALTER TABLE `Answer` DROP FOREIGN KEY `Answer_id_question_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `item` DROP FOREIGN KEY `Item_id_question_fkey`;
+ALTER TABLE `Item` DROP FOREIGN KEY `Item_id_question_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `question` DROP FOREIGN KEY `Question_id_quiz_fkey`;
+ALTER TABLE `Question` DROP FOREIGN KEY `Question_id_quiz_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `quiz` DROP FOREIGN KEY `Quiz_id_user_fkey`;
+ALTER TABLE `Quiz` DROP FOREIGN KEY `Quiz_id_user_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `room` DROP FOREIGN KEY `Room_id_quiz_fkey`;
+ALTER TABLE `Room` DROP FOREIGN KEY `Room_id_quiz_fkey`;
 
 -- DropForeignKey
-ALTER TABLE `room` DROP FOREIGN KEY `Room_id_user_fkey`;
+ALTER TABLE `Room` DROP FOREIGN KEY `Room_id_user_fkey`;
 
 -- DropIndex
 DROP INDEX `Answer_id_question_fkey` ON `answer`;

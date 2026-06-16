@@ -5,7 +5,7 @@ model User {
     surname String? @db.VarChar(50) @unique
     mail String @db.VarChar(150) @unique
     password String @db.Text
-    role Role @default(player)
+    role Role @default(creator)
     createdAt DateTime @default(now())
     updatedAt DateTime?
     quiz Quiz[]

@@ -5,32 +5,52 @@ services:
     container_name: quizmaster_frontend
     restart: always
     ports:
-      - "8080:80"
+      - "5173:80"
 
   backend:
     build: ./QuizMaster_backend
     container_name: quizmaster_backend
     restart: always
     depends_on:
-      - db:
-        condition: service_started
+      db:
+        condition: service_healthy
         restart: true
-
     env_file:
       - ./QuizMaster_backend/.env
-
+    environment:
+      - DATABASE_URL=mysql://root:password@db:3306/quizmaster_db
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=password
+      - DATABASE_NAME=quizmaster_db
+      - DATABASE_HOST=db
+      - DATABASE_PORT=3306
+      - PORT=3009
     ports:
       - "3009:3009"
 
   db:
     image: mysql:8.2
+    command: --lower-case-table-names=1
     restart: always
     container_name: quizmaster_db
     environment:
-      - DATABASE_URL="mysql://root:@localhost:3306/quizmaster_db"
-      - DATABASE_USER="root"
-      - DATABASE_PASSWORD=""
-      - DATABASE_NAME="quizmaster_db"
-      - DATABASE_HOST="localhost"
+      - MYSQL_ROOT_PASSWORD=password
+      - DATABASE_URL=mysql://root:password@db:3306/quizmaster_db
+      - MYSQL_USER=quizmaster
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=quizmaster_db
+      - DATABASE_HOST=db
       - DATABASE_PORT=3306
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  db_data:
+    driver: local
 
