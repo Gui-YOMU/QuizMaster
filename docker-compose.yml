@@ -20,7 +20,7 @@ services:
     container_name: quizmaster_frontend
     restart: always
     ports:
-      - "80"
+      - "5173:80"
 
   backend:
     build: ./QuizMaster_backend
@@ -39,9 +39,9 @@ services:
       - DATABASE_NAME=quizmaster_db
       - DATABASE_HOST=db
       - DATABASE_PORT=3306
-      - PORT=3009
+      - PORT=3089
     ports:
-      - "3009"
+      - "3089:3089"
 
   db:
     image: mysql:8.2
