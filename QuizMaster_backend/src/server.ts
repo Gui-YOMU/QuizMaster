@@ -20,17 +20,12 @@ const PORT = process.env.PORT;
 const app = express();
 const server = createServer(app);
 const io = new Server(server, {
-  cors: { origin: "http://localhost:5173" },
+  cors: { origin: process.env.CORS_ORIGIN },
 });
 
 socketHandlers(io);
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  }),
-);
+app.use(cors({ origin: process.env.CORS_ORIGIN, credentials: true }));
 
 app.use(cookieParser());
 
@@ -57,4 +52,4 @@ server.listen(PORT, () => {
 
 server.on("error", (error) => {
   console.error(error);
-})
+});

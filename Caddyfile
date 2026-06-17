@@ -1,0 +1,10 @@
+guillaume-rallo.ri7.tech {
+    handle /api/* {
+        uri strip_prefix /api
+        reverse_proxy backend:3009
+    }
+
+    handle /* {
+        reverse_proxy frontend:80
+    }
+}

@@ -1,11 +1,26 @@
 services:
+  caddy:
+    image: caddy:latest
+    container_name: quizmaster_caddy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - frontend
+      - backend
 
   frontend:
     build: ./QuizMaster_frontend
     container_name: quizmaster_frontend
     restart: always
     ports:
-      - "5173:80"
+      - "80"
 
   backend:
     build: ./QuizMaster_backend
@@ -26,7 +41,7 @@ services:
       - DATABASE_PORT=3306
       - PORT=3009
     ports:
-      - "3009:3009"
+      - "3009"
 
   db:
     image: mysql:8.2
@@ -53,4 +68,6 @@ services:
 volumes:
   db_data:
     driver: local
+  caddy_data:
+  caddy_config:
 
