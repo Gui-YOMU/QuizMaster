@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../../../contexts/AuthContext";
 import { UserQueries } from "../../../../core/infrastructure/queries/UserQueries";
 import { toast } from "react-toastify";
@@ -11,6 +11,8 @@ export function useUserProfilePageViewModel() {
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [surname, setSurname] = useState("");
+
+  const queryClient = useQueryClient();
 
   const Navigate = useNavigate();
 
@@ -37,6 +39,8 @@ export function useUserProfilePageViewModel() {
     onSuccess: () => {
       console.log("Profil modifié !");
       toast.success("Votre profil a bien été mis à jour.");
+      console.log("User : ", userId);
+      queryClient.invalidateQueries({ queryKey: ["users", userId ? parseInt(userId) : 0] });
     },
     onError: (error) => {
       console.error(error);

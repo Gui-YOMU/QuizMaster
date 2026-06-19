@@ -53,6 +53,7 @@ export function useQuestionParamsPageViewModel() {
     onSuccess: () => {
       console.log("Modification des paramètres de la question réussie.");
       toast.success("La modification de la question a été effectuée.");
+      queryClient.invalidateQueries({ queryKey: ["question", selectedQuestionId] })
       Navigate(`/questionView/${selectedQuestionId}`);
     },
     onError: (error) => {

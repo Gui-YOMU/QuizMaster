@@ -4,21 +4,23 @@ import { Card } from "../atoms/Card";
 import { AnswerView } from "./AnswerView";
 
 interface QuestionViewProps {
-  questionSubject: string;
-  questionQuery: string;
-  questionTimer: number;
-  questionPoints: number;
-  questionType: string;
+  subject: string;
+  query: string;
+  timer: number;
+  points: number;
+  type: string;
   answers: Answer[];
+  playerAnswering: boolean;
 }
 
 export const QuestionView = ({
-  questionSubject,
-  questionQuery,
-  questionPoints,
-  questionTimer,
-  questionType,
+  subject,
+  query,
+  points,
+  timer,
+  type,
   answers,
+  playerAnswering,
 }: QuestionViewProps) => {
   return (
     <div className="h-full flex flex-col justify-between">
@@ -28,14 +30,14 @@ export const QuestionView = ({
             <div className="flex justify-center items-center gap-2 p-2">
               <Timer size={60} color="white" />
               <h2 className="text-3xl text-white font-bold">
-                {questionTimer} s
+                {timer} s
               </h2>
             </div>
           </Card>
           <Card bgColor="bg-mainblue" width="w-2/3" height="h-full">
             <div className="h-full flex justify-center items-center gap-2 p-2">
               <h2 className="text-3xl text-white font-bold">
-                {questionSubject}
+                {subject}
               </h2>
             </div>
           </Card>
@@ -43,17 +45,17 @@ export const QuestionView = ({
             <div className="flex justify-center items-center gap-2 p-2">
               <Trophy size={60} color="white" />
               <h2 className="text-3xl text-white font-bold">
-                {questionPoints}
+                {points}
               </h2>
             </div>
           </Card>
         </div>
         <div className="border-3 rounded-xl border-border bg-white h-2/5 flex justify-center items-center">
-          <h2 className="text-2xl text-black font-bold">{questionQuery}</h2>
+          <h2 className="text-2xl text-black font-bold">{query}</h2>
         </div>
       </div>
       <div className="h-3/5">
-        <AnswerView questionType={questionType} answers={answers} />
+        {!playerAnswering && <AnswerView questionType={type} answers={answers} />}
       </div>
     </div>
   );

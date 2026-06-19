@@ -26,7 +26,7 @@ export const QCMAnswerParams = ({
         })),
   );
 
-  const [answersNumber, setAnswersNumber] = useState(initialAnswers?.length);
+  const [answersNumber, setAnswersNumber] = useState(answers.length);
 
   useEffect(() => {
     onChangeAnswers(answers);

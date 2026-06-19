@@ -4,5 +4,5 @@ import { useQuestionViewPageViewModel } from "./useQuestionViewPageViewModel";
 export const QuestionViewPage = () => {
   const vm = useQuestionViewPageViewModel();
 
-  return <QuestionView {...vm} />;
+  return <QuestionView {...vm} playerAnswering={false} />;
 };

@@ -42,11 +42,11 @@ export function useQuestionViewPageViewModel() {
 
   return {
     questionId: selectedQuestionId,
-    questionSubject,
-    questionQuery,
-    questionPoints,
-    questionTimer,
-    questionType,
+    subject: questionSubject,
+    query: questionQuery,
+    points: questionPoints,
+    timer: questionTimer,
+    type: questionType,
     answers,
   };
 }
