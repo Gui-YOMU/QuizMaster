@@ -7,7 +7,7 @@ import { useEditor } from "../../contexts/EditorContext";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
-import { QuestionThumbnail } from "../molecules/QuestionThumbnail";
+import { QuestionThumbnail } from "./QuestionThumbnail";
 
 interface EditorSideBarProps {
   questionsList: Question[];

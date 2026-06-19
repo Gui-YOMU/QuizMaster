@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router";
 import { MainPrivateRoutes } from "./MainPrivateRoutes.tsx";
 import { PublicRoutes } from "./PublicRoutes.tsx";
 import { RouterProvider } from "react-router-dom";
-import { NotFoundPage } from "../pages/error/NotFoundPage/NotFoundPage.tsx";
+import { NotFoundErrorPage } from "../pages/error/NotFoundErrorPage/NotFoundErrorPage.tsx";
 import { EditorPrivateRoutes } from "./EditorPrivateRoutes.tsx";
 import { GamePrivateRoutes } from "./GamePrivateRoutes.tsx";
 
@@ -11,7 +11,7 @@ const router = createBrowserRouter([
   ...MainPrivateRoutes,
   ...EditorPrivateRoutes,
   ...GamePrivateRoutes,
-  { path: "*", element: <NotFoundPage /> },
+  { path: "*", element: <NotFoundErrorPage /> },
 ]);
 
 const AllRoutes = () => {

@@ -8,8 +8,9 @@ import { AnswerQueries } from "../../../../core/infrastructure/queries/AnswerQue
 import { AnswerMapper } from "../../../../core/infrastructure/mappers/AnswerMapper";
 
 export function useQuestionParamsPageViewModel() {
-  const { selectedQuestionId } = useOutletContext<{
+  const { selectedQuestionId, quizId } = useOutletContext<{
     selectedQuestionId: number;
+    quizId: number;
   }>();
 
   const queryClient = useQueryClient();
@@ -53,7 +54,8 @@ export function useQuestionParamsPageViewModel() {
     onSuccess: () => {
       console.log("Modification des paramètres de la question réussie.");
       toast.success("La modification de la question a été effectuée.");
-      queryClient.invalidateQueries({ queryKey: ["question", selectedQuestionId] })
+      queryClient.invalidateQueries({ queryKey: ["question", selectedQuestionId] });
+      queryClient.invalidateQueries({ queryKey: ["questionsByQuiz", quizId] })
       Navigate(`/questionView/${selectedQuestionId}`);
     },
     onError: (error) => {

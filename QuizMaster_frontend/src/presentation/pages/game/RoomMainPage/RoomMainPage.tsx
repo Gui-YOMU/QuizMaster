@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useGame } from "../../../contexts/GameContext";
 import { useEffect, useState } from "react";
 import { Card } from "../../../components/atoms/Card";
@@ -7,6 +7,8 @@ import { Question } from "../../../../core/domain/entities/Question";
 import { useAuth } from "../../../contexts/AuthContext";
 import { QuestionView } from "../../../components/organisms/QuestionView";
 import { Answer } from "../../../../core/domain/entities/Answer";
+import { IconButton } from "../../../components/atoms/IconButton";
+import { X } from "lucide-react";
 
 export const RoomMainPage = () => {
   const { userId } = useAuth();
@@ -14,6 +16,8 @@ export const RoomMainPage = () => {
   const { roomCode } = useParams<{ roomCode: string }>();
 
   const { socket } = useGame();
+
+  const Navigate = useNavigate();
 
   const [hostId, setHostId] = useState<number | null>(null);
 
@@ -46,6 +50,17 @@ export const RoomMainPage = () => {
 
   return (
     <>
+      <div>
+        <IconButton
+          border={true}
+          onClick={() => {
+            socket?.emit("disconnect");
+            Navigate("/creatorDashboard")
+          }}
+          icon={<X size={40} color="white" />}
+          bgColor="bg-error"
+        />
+      </div>
       {!quizStarted && (
         <div>
           <h1>Accueil de la salle</h1>
@@ -64,6 +79,8 @@ export const RoomMainPage = () => {
               content="Démarrer le quiz"
               width="w-fit"
               onClick={() => {
+                console.log(`Commencer le quiz de la salle ${roomCode}`);
+
                 socket?.emit("start-quiz", {
                   roomCode,
                 });

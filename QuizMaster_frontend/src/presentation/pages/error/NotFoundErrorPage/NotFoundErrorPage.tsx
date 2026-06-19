@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import { Button } from "../../../components/atoms/Button"
 
-export const NotFoundPage = () => {
+export const NotFoundErrorPage = () => {
     const Navigate = useNavigate();
 
     return (

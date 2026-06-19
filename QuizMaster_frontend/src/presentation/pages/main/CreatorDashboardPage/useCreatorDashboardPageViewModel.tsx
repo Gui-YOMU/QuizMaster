@@ -63,6 +63,9 @@ export function useCreatorDashboardPageViewModel() {
       queryClient.invalidateQueries({
         queryKey: ["users", userId ? parseInt(userId) : 0],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["quizByUser", userId ? parseInt(userId) : 0],
+      });
       openEditor(data.id ? data.id : 0);
       Navigate(`/quizMain/${data.id}`);
     },

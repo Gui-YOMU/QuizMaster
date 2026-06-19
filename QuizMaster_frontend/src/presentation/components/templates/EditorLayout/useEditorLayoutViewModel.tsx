@@ -20,10 +20,6 @@ export function useEditorLayoutViewModel() {
     console.log(`Question n°${questionId} cliquée`);
   };
 
-  // const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(
-  //   null,
-  // );
-
   const {
     isPending,
     isError,
@@ -71,5 +67,6 @@ export function useEditorLayoutViewModel() {
     onSelectQuestionId,
     selectedQuestionId,
     onDelete,
+    quizId,
   };
 }

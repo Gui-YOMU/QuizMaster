@@ -18,7 +18,7 @@ export const EditorLayout = () => {
           <div className="flex flex-col justify-center items-center gap-4 w-full h-full min-h-0">
             <EditorBar selectedQuestionId={vm.selectedQuestionId} onDelete={vm.onDelete}/>
             <div className="overflow-y-auto border-5 border-border bg-bg w-full h-full min-h-0 p-2">
-              <Outlet context={{ selectedQuestionId: vm.selectedQuestionId }}/>
+              <Outlet context={{ selectedQuestionId: vm.selectedQuestionId, quizId: vm.quizId }}/>
             </div>
           </div>
         </main>

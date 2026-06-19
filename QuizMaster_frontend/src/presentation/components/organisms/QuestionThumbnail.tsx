@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import type { Question } from "../../../core/domain/entities/Question";
 import { AnswerQueries } from "../../../core/infrastructure/queries/AnswerQueries";
-import { QuestionView } from "../organisms/QuestionView";
+import { QuestionView } from "./QuestionView";
 
 interface QuestionThumbnailProps {
   question: Question;
@@ -28,12 +28,13 @@ export const QuestionThumbnail = ({
     >
       <div className="absolute top-0 left-0 w-5xl h-144 origin-top-left scale-[0.15625] pointer-events-none">
         <QuestionView
-          questionSubject={question.subject ?? ""}
-          questionPoints={question.points}
-          questionQuery={question.query}
-          questionTimer={question.timer}
-          questionType={question.type ?? ""}
+          subject={question.subject ?? ""}
+          points={question.points}
+          query={question.query}
+          timer={question.timer}
+          type={question.type ?? ""}
           answers={answers ?? []}
+          playerAnswering={false}
         />
       </div>
     </div>
