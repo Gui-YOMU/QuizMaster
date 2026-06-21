@@ -1,6 +1,7 @@
 import { QuizCard } from "../../../components/organisms/QuizCard";
 import { QuizModal } from "../../../components/organisms/QuizModal";
 import { RoomModal } from "../../../components/organisms/RoomModal";
+import { ComputerOnlyErrorPage } from "../../error/ComputerOnlyErrorPage/ComputerOnlyErrorPage";
 import { useQuizListPageViewModel } from "./useQuizListPageViewModel";
 
 export const QuizListPage = () => {
@@ -12,7 +13,7 @@ export const QuizListPage = () => {
       {vm.isError && <span>Erreur !</span>}
       {vm.quizList && (
         <>
-          <div className="p-5 grid grid-cols-4 gap-5 auto-rows-auto">
+          <div className="hidden p-5 lg:grid grid-cols-4 gap-5 auto-rows-auto">
             {vm.quizList.map((quiz) => (
               <QuizCard
                 key={quiz.id}
@@ -23,6 +24,9 @@ export const QuizListPage = () => {
                 onDelete={vm.onDelete}
               />
             ))}
+          </div>
+          <div className="lg:hidden">
+            <ComputerOnlyErrorPage />
           </div>
         </>
       )}

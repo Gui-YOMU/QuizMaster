@@ -6,6 +6,7 @@ import { useCreatorDashboardPageViewModel } from "./useCreatorDashboardPageViewM
 import { CirclePlus } from "lucide-react";
 import { QuizModal } from "../../../components/organisms/QuizModal";
 import { RoomModal } from "../../../components/organisms/RoomModal";
+import { ComputerOnlyErrorPage } from "../../error/ComputerOnlyErrorPage/ComputerOnlyErrorPage";
 
 export const CreatorDashboardPage = () => {
   const vm = useCreatorDashboardPageViewModel();
@@ -16,7 +17,7 @@ export const CreatorDashboardPage = () => {
       {vm.isError && <span>Erreur !</span>}
       {vm.user && (
         <>
-          <div className="h-full flex justify-around items-center">
+          <div className="hidden h-full lg:flex justify-around items-center">
             <Card bgColor="bg-mainpurple" width="w-9/20" height="h-1/2">
               <CardTitle content="Nombre de quiz créés" />
               <div className="h-1/2 flex flex-col justify-between">
@@ -59,6 +60,9 @@ export const CreatorDashboardPage = () => {
                 </Link>
               </div>
             </Card>
+          </div>
+          <div className="lg:hidden">
+            <ComputerOnlyErrorPage />
           </div>
           {vm.isQuizModalOpen && (
             <QuizModal
