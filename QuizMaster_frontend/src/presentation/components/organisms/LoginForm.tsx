@@ -16,8 +16,8 @@ export const LoginForm = ({
   return (
     <>
       <Title content="Page de connexion" color="text-black"/>
-      <div className="bg-bg p-3.5 w-1/2 border border-border rounded-lg flex flex-col gap-5 justify-center items-center">
-        <form className="w-1/2 flex flex-col gap-5" onSubmit={onSubmit}>
+      <div className="bg-bg p-3.5 w-9/10 lg:w-1/2 border border-border rounded-lg flex flex-col gap-5 justify-center items-center">
+        <form className="w-full lg:w-1/2 flex flex-col gap-5" onSubmit={onSubmit}>
           <FormItem
           color="text-black"
             name="mail"
@@ -36,7 +36,7 @@ export const LoginForm = ({
             mandatory={true}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button content="Se connecter" bgColor="bg-mainblue" width="w-5/6" />
+          <Button content="Se connecter" bgColor="bg-mainblue" width="w-1/3 lg:w-5/6" />
         </form>
       </div>
     </>

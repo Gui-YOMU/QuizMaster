@@ -17,9 +17,9 @@ export const SigninForm = ({setLastName, setFirstName, setSurname, setMail, setP
   return (
     <>
       <Title content="Page d'inscription" color="text-black"/>
-      <div className="bg-bg p-3.5 w-1/2 border border-border rounded-lg flex flex-col gap-5 justify-center items-center">
-        <form className="w-3/4 flex flex-col gap-3" onSubmit={onSubmit}>
-          <div className="flex justify-between">
+      <div className="bg-bg p-3.5 w-9/10 lg:w-1/2 border border-border rounded-lg flex flex-col gap-5 justify-center items-center">
+        <form className="w-full lg:w-3/4 flex flex-col gap-3" onSubmit={onSubmit}>
+          <div className="flex lg:flex-row flex-col gap-3 justify-between">
             <FormItem
             color="text-black"
               name="lastName"
@@ -75,7 +75,7 @@ export const SigninForm = ({setLastName, setFirstName, setSurname, setMail, setP
             mandatory={true}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-          <Button content="S'inscrire" bgColor="bg-mainblue" width="w-4/6" />
+          <Button content="S'inscrire" bgColor="bg-mainblue" width="w-1/3 lg:w-4/6" />
         </form>
       </div>
     </>
