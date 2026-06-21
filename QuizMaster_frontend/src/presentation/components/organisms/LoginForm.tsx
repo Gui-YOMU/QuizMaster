@@ -16,7 +16,7 @@ export const LoginForm = ({
   return (
     <>
       <Title content="Page de connexion" color="text-black"/>
-      <div className="bg-bg p-3.5 w-9/10 lg:w-1/2 border border-border rounded-lg flex flex-col gap-5 justify-center items-center">
+      <div className="bg-bg p-3.5 w-9/10 md:w-1/2 border border-border rounded-lg flex flex-col gap-5 justify-center items-center">
         <form className="w-full lg:w-1/2 flex flex-col gap-5" onSubmit={onSubmit}>
           <FormItem
           color="text-black"
