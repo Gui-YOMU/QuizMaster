@@ -13,8 +13,8 @@ export const PlayerDashboardPage = () => {
       {vm.isPending && <span>Loading ...</span>}
       {vm.isError && <span>Erreur !</span>}
       {vm.user && (
-        <div className="h-full flex justify-around items-center">
-          <Card bgColor="bg-mainpurple" width="w-9/20" height="h-1/2">
+        <div className="h-full flex flex-col lg:flex-row justify-around items-center">
+          <Card bgColor="bg-mainpurple" width="w-9/10 lg:w-9/20" height="h-1/3 lg:h-1/2">
             <CardTitle content="Participer à un quiz" />
             <form
               className="h-1/2 flex flex-col justify-between"
@@ -36,7 +36,7 @@ export const PlayerDashboardPage = () => {
               />
             </form>
           </Card>
-          <Card bgColor="bg-maingold" width="w-9/20" height="h-1/2">
+          <Card bgColor="bg-maingold" width="w-9/10 lg:w-9/20" height="h-1/3 lg:h-1/2">
             <CardTitle content="Nombre de quiz joués" />
             <div className="h-1/2 flex flex-col justify-between">
               <p className="text-6xl text-white font-bold mx-auto">
