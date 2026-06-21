@@ -7,7 +7,7 @@ interface NavBarProps {
 
 export const NavBar = ({ role }: NavBarProps) => {
   return (
-    <div className="flex justify-center gap-5">
+    <div className="flex justify-center gap-3 lg:gap-5">
       <div className="hidden lg:block">
         {role === "creator" && (
           <NavButton
