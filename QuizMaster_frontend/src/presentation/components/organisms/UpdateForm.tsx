@@ -23,8 +23,8 @@ export const UpdateForm = ({
   return (
     <>
       <form className="h-1/2 w-9/10 flex flex-col justify-around items-center" onSubmit={onSubmit}>
-        <div className="flex justify-around w-full">
-          <div className="w-1/3">
+        <div className="flex justify-around w-full flex-col lg:flex-row gap-3">
+          <div className="w-full lg:w-1/3">
             <Input
               value={lastName}
               name="lastName"
@@ -33,7 +33,7 @@ export const UpdateForm = ({
               onChange={(e) => setLastName(e.target.value)}
             />
           </div>
-          <div className="w-1/3">
+          <div className="w-full lg:w-1/3">
             <Input
               value={firstName}
               name="firstName"
@@ -43,7 +43,7 @@ export const UpdateForm = ({
             />
           </div>
         </div>
-        <div className="w-1/3">
+        <div className="w-full lg:w-1/3 py-3">
           <Input
             value={surname}
             name="surname"
@@ -55,7 +55,7 @@ export const UpdateForm = ({
         <Button
           content="Enregistrer les modifications"
           bgColor="bg-mainblue"
-          width="w-1/3"
+          width="w-full lg:w-1/3"
         />
       </form>
     </>

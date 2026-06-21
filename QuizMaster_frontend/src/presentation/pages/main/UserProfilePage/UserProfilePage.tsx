@@ -24,31 +24,29 @@ export const UserProfilePage = () => {
               setSurname={vm.setSurname}
               onSubmit={vm.onSubmit}
             />
-            <div className="w-9/10 flex pb-5">
+            <div className="w-9/10 flex flex-col lg:pb-5 lg:flex-row gap-3">
               <Button
                 content="Modifier les identifiants"
                 bgColor="bg-maingold"
-                width="w-1/3"
+                width="w-full lg:w-1/3"
                 onClick={vm.onResetCredentials}
               />
               <Button
                 content="Supprimer son profil"
                 bgColor="bg-error"
-                width="w-1/3"
+                width="w-full lg:w-1/3"
                 onClick={vm.onDelete}
               />
             </div>
           </Card>
-          <Card bgColor="bg-maingold" width="w-2/5" height="h-1/5">
+          <Card bgColor="bg-maingold" width="w-4/5 lg:w-2/5" height="h-1/5">
             <CardTitle content="Envie de créer vos propres quiz ?" />
-            <div className="flex flex-col justify-between">
-              <Button
-                content="S'abonner"
-                bgColor="bg-mainblue"
-                width="w-fit"
-                onClick={vm.onSubscribe}
-              />
-            </div>
+            <Button
+              content="S'abonner"
+              bgColor="bg-mainblue"
+              width="w-fit"
+              onClick={vm.onSubscribe}
+            />
           </Card>
         </div>
       )}
