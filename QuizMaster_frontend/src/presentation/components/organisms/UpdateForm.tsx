@@ -22,7 +22,7 @@ export const UpdateForm = ({
 }: UpdateFormProps) => {
   return (
     <>
-      <form className="h-1/2 w-9/10 flex flex-col justify-around items-center" onSubmit={onSubmit}>
+      <form className="w-9/10 lg:h-1/2 flex flex-col justify-center gap-3 items-center" onSubmit={onSubmit}>
         <div className="flex justify-around w-full flex-col lg:flex-row gap-3">
           <div className="w-full lg:w-1/3">
             <Input
@@ -43,7 +43,7 @@ export const UpdateForm = ({
             />
           </div>
         </div>
-        <div className="w-full lg:w-1/3 py-3">
+        <div className="w-full lg:w-1/3">
           <Input
             value={surname}
             name="surname"
