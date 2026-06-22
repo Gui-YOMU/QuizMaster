@@ -16,6 +16,11 @@ export const playerHandlers = (io: Server, socket: Socket) => {
     if (isGoodAnswer) {
     const currentQuestion = room.questions[room.currentQuestion];
     player.score += currentQuestion.points;
+    return socket.emit("good-answer");
+    }
+
+    if(!isGoodAnswer) {
+      return socket.emit("bad-answer");
     }
   });
 };
