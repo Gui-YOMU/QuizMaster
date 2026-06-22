@@ -2,8 +2,9 @@ import { Timer, Trophy } from "lucide-react";
 import type { Answer } from "../../../core/domain/entities/Answer";
 import { Card } from "../atoms/Card";
 import { AnswerView } from "./AnswerView";
+import { AnswerInput } from "./AnswerInput";
 
-interface QuestionViewProps {
+interface QuestionPlayViewProps {
   subject: string;
   query: string;
   timer: number;
@@ -13,7 +14,7 @@ interface QuestionViewProps {
   playerAnswering: boolean;
 }
 
-export const QuestionView = ({
+export const QuestionPlayView = ({
   subject,
   query,
   points,
@@ -21,7 +22,7 @@ export const QuestionView = ({
   type,
   answers,
   playerAnswering,
-}: QuestionViewProps) => {
+}: QuestionPlayViewProps) => {
   return (
     <div className="h-full flex flex-col justify-between">
       <div className="h-1/3 flex flex-col justify-around">
@@ -56,6 +57,7 @@ export const QuestionView = ({
       </div>
       <div className="h-3/5">
         {!playerAnswering && <AnswerView questionType={type} answers={answers} />}
+        {playerAnswering && <AnswerInput questionType={type} answers={answers} />}
       </div>
     </div>
   );
