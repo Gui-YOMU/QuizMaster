@@ -24,6 +24,25 @@ export function usePlayerDashboardPageViewModel() {
     }
   }, [isError, error]);
 
+  useEffect(() => {
+    socket?.on("room-error", ({ message }: { message: string }) => {
+      console.error(message);
+      toast.error(message);
+
+      return () => {
+        socket.off("room-error");
+      };
+    });
+  }, [socket])
+
+  useEffect(() => {
+    socket?.on("room-joined", ({ roomCode }) => {
+    Navigate(`/roomMain/${roomCode}`);
+  });
+
+  return () => {socket?.off("room-joined")};
+  }, [socket])
+
   const onSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     socket?.emit("join-room", {
@@ -39,7 +58,6 @@ export function usePlayerDashboardPageViewModel() {
       return;
     });
     console.log(`Salle ${roomCode} rejointe`);
-    Navigate(`/roomMain/${roomCode}`)
   };
 
   return {

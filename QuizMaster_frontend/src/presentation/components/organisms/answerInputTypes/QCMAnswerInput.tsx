@@ -8,6 +8,7 @@ interface QCMAnswerInputProps {
   socket: Socket | null;
   playerId: string | null | undefined;
   roomCode?: string;
+  timerRunning: boolean;
 }
 
 const PROPOSITIONS_CARDS = [
@@ -24,6 +25,7 @@ export const QCMAnswerInput = ({
   socket,
   playerId,
   roomCode,
+  timerRunning,
 }: QCMAnswerInputProps) => {
   const [hasAnswered, setHasAnswered] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
@@ -34,7 +36,7 @@ export const QCMAnswerInput = ({
   }, [answers]);
 
   const onAnswering = (isGoodAnswer: boolean, answerId: number | null) => {
-    if (hasAnswered) return;
+    if (hasAnswered || !timerRunning) return;
     setHasAnswered(true);
     setSelectedAnswer(answerId);
     socket?.emit("player-answer", { isGoodAnswer, playerId, roomCode });

@@ -34,33 +34,42 @@ export const QuestionPlayView = ({
   roomCode,
 }: QuestionPlayViewProps) => {
   const [timeLeft, setTimeLeft] = useState(timer);
+  const [timerRunning, setTimerRunning] = useState(false);
 
   const barColor = () => {
     const ratio = timeLeft / timer;
     if (ratio > 0.5) {
-      return "bg-success"
+      return "bg-success";
     }
     if (ratio > 0.25) {
-      return "bg-warning"
+      return "bg-warning";
     }
-    return "bg-error"
-  }
+    return "bg-error";
+  };
 
   useEffect(() => {
     setTimeLeft(timer);
+    setTimerRunning(false);
 
-    const interval = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 0) {
-          clearInterval(interval);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+    socket?.on("timer", ({ timeLeft }) => {
+      setTimerRunning(true);
+      setTimeLeft(timeLeft);
+    });
 
-    return () => clearInterval(interval);
-  }, [timer]);
+    return () => {
+      socket?.off("timer");
+    };
+  }, [socket, questionNumber]);
+
+  useEffect(() => {
+    socket?.on("timer-ended", () => {
+      setTimerRunning(false);
+    });
+
+    return () => {
+      socket?.off("timer-ended");
+    };
+  }, [socket]);
 
   return (
     <div className="h-full flex flex-col justify-between">
@@ -91,7 +100,7 @@ export const QuestionPlayView = ({
         </div>
         <div
           style={{ width: `${(timeLeft / timer) * 100}%` }}
-          className={`my-2 h-5 ${barColor} transition-all duration-1000 ease-linear`}
+          className={`my-2 h-5 ${barColor()} transition-all duration-1000 ease-linear`}
         ></div>
         <div className="border-3 rounded-xl border-border bg-white h-2/5 flex justify-center items-center">
           <h2 className="text-center text-lg lg:text-2xl text-black font-bold">
@@ -110,6 +119,7 @@ export const QuestionPlayView = ({
             socket={socket}
             playerId={playerId}
             roomCode={roomCode}
+            timerRunning={timerRunning}
           />
         )}
       </div>

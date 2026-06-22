@@ -43,6 +43,31 @@ export const quizHandlers = (io: Server, socket: Socket) => {
     console.log(`Question ${room.currentQuestion + 1} affichée`);
   });
 
+  socket.on("start-timer", ({ roomCode }: { roomCode: string }) => {
+    const room = rooms[roomCode];
+  if (!room) {
+    return socket.emit("room-error", { message: "Salle inexistante." });
+  }
+  if (room.host !== socket.id) {
+    return socket.emit("host-error", { message: "Seul l'hôte peut démarrer le timer." });
+  }
+
+  const currentQuestion = room.questions[room.currentQuestion];
+  let timeLeft = currentQuestion.timer;
+
+  io.to(roomCode).emit("timer", { timeLeft });
+
+  const interval = setInterval(() => {
+    timeLeft--;
+    io.to(roomCode).emit("timer", { timeLeft });
+
+    if (timeLeft <= 0) {
+      clearInterval(interval);
+      io.to(roomCode).emit("timer-ended");
+    }
+  }, 1000);
+  })
+
   socket.on("next-question", async ({ roomCode }: { roomCode: string }) => {
     const room = rooms[roomCode];
     if (!room) {

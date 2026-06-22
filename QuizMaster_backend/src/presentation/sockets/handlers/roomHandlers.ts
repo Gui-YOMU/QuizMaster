@@ -57,6 +57,7 @@ export const roomHandlers = (io: Server, socket: Socket) => {
       if (!alreadyJoined) {
         room.players.push({ id: playerId, name: playerName, score: 0 });
         socket.join(roomCode);
+        socket.emit("room-joined", { roomCode });
       }
 
       io.to(roomCode).emit("players-list", {

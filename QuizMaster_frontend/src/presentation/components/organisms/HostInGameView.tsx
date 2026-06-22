@@ -110,6 +110,16 @@ export const HostInGameView = ({
             )}
           </div>
           <div>
+            <IconButton
+              bgColor="bg-success"
+              icon={<Play size={60} color="" fill="white" />}
+              border={false}
+              onClick={() => {
+                socket?.emit("start-timer", {
+                  roomCode,
+                });
+              }}
+            />
             <Button
               bgColor="bg-mainblue"
               content={
