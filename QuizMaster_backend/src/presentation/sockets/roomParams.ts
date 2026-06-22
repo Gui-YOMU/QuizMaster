@@ -1,7 +1,7 @@
 import { AnswerEty } from "../../core/domain/entities/AnswerEty.js";
 import { QuestionEty } from "../../core/domain/entities/QuestionEty.js";
 
-export type Player = { id: number; name: string; score: number };
+export type Player = { id: string; name: string; score: number };
 
 export type Room = {
   host: string;

@@ -8,7 +8,7 @@ interface createRoomProps {
 
 interface joinRoomProps {
   roomCode: string;
-  playerId: number;
+  playerId: string;
   playerName: string;
 }
 

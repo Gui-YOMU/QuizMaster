@@ -11,7 +11,7 @@ export const Button = ({ bgColor, icon, content, width, onClick, opacity }: Butt
   return (
     <button
       onClick={onClick}
-      className={`${bgColor} ${opacity} border border-white text-white p-2 rounded-lg font-semibold ${width} mx-auto flex justify-center items-center gap-3 text-sm lg:text-md`}
+      className={`${bgColor} ${opacity} border border-white text-white p-2 rounded-lg font-semibold ${width} mx-auto flex justify-center items-center gap-3 text-md lg:text-lg`}
     >
       {icon}
       {content}

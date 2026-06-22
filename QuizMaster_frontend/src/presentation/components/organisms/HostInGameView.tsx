@@ -14,7 +14,7 @@ interface HostInGameViewProps {
   quizStarted: boolean;
   quizEnded: boolean;
   roomCode: string | undefined;
-  playersList: { id: number; name: string; score: number }[];
+  playersList: { id: string; name: string; score: number }[];
   socket: Socket | null;
   currentQuestion: Question | null;
   isLastQuestion: boolean;
@@ -109,7 +109,7 @@ export const HostInGameView = ({
               />
             )}
           </div>
-          <div>
+          <div className="flex w-fit justify-center gap-5 mx-auto">
             <IconButton
               bgColor="bg-success"
               icon={<Play size={60} color="" fill="white" />}
@@ -137,7 +137,7 @@ export const HostInGameView = ({
           </div>
         </div>
       )}
-      {quizStarted && quizEnded && (
+      {quizEnded && (
         <div>
           {playersList.map((player) => (
             <Card
@@ -146,8 +146,8 @@ export const HostInGameView = ({
               width="w-50"
               height="h-50"
             >
-              <p>{player.name}</p>
-              <p>{player.score}</p>
+              <CardTitle content={player.name} />
+              <Title content={`${player.score}`} color="text-white" />
             </Card>
           ))}
         </div>

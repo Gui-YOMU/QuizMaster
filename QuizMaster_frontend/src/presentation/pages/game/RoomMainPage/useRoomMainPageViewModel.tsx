@@ -15,7 +15,7 @@ export function useRoomMainPageViewModel() {
   const [hostId, setHostId] = useState<string>("");
 
   const [playersList, setPlayersList] = useState<
-    { id: number; name: string; score: number }[]
+    { id: string; name: string; score: number }[]
   >([]);
 
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);

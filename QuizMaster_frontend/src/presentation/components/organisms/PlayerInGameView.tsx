@@ -10,21 +10,34 @@ import { Title } from "../atoms/Title";
 import { QuestionPlayView } from "./QuestionPlayView";
 
 interface PlayerInGameViewProps {
-    quizStarted: boolean,
-    quizEnded: boolean,
-    roomCode: string | undefined,
-    playersList: { id: number; name: string; score: number }[],
-    socket: Socket | null,
-    currentQuestion: Question | null,
-    answers: Answer[],
-    userId: string | null,
-    questionNumber: number;
+  quizStarted: boolean;
+  quizEnded: boolean;
+  roomCode: string | undefined;
+  playersList: { id: string; name: string; score: number }[];
+  socket: Socket | null;
+  currentQuestion: Question | null;
+  answers: Answer[];
+  userId: string | null;
+  questionNumber: number;
 }
 
-export const PlayerInGameView = ({quizStarted, quizEnded, roomCode, playersList, socket, currentQuestion, answers, userId, questionNumber}: PlayerInGameViewProps) => {
-    const Navigate = useNavigate();
+export const PlayerInGameView = ({
+  quizStarted,
+  quizEnded,
+  roomCode,
+  playersList,
+  socket,
+  currentQuestion,
+  answers,
+  userId,
+  questionNumber,
+}: PlayerInGameViewProps) => {
+  const Navigate = useNavigate();
 
-    const player = playersList.find((player) => player.id === parseInt(userId ? userId : "0"));
+  const player = playersList.find((player) => player.id === (userId ?? "0"));
+
+  console.log("playersList:", playersList);
+  console.log("userId parsé:", parseInt(userId ?? "0"));
 
   return (
     <div className="w-full h-full flex flex-col justify-start gap-5">
@@ -64,10 +77,11 @@ export const PlayerInGameView = ({quizStarted, quizEnded, roomCode, playersList,
           )}
         </div>
       )}
-      {quizStarted && quizEnded && (
-        <div>
-          <Card bgColor="bg-mainblue" width="w-50" height="h-50">
-            <p>{player?.score}</p>
+      {quizEnded && (
+        <div className="w-full h-full flex justify-center items-center">
+          <Card bgColor="bg-maingold" width="w-50" height="h-50">
+            <CardTitle content="Votre score" />
+            <Title content={`${player?.score} points`} color="text-black" />
           </Card>
         </div>
       )}

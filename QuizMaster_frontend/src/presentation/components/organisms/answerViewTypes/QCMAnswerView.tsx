@@ -30,7 +30,7 @@ export const QCMAnswerView = ({ answers }: QCMAnswerViewProps) => {
               </h2>
             </div>
 
-            <p className="w-full font-bold text-white text-center">
+            <p className="w-full font-bold text-white text-center text-2xl">
               {answer.value}
             </p>
           </div>
