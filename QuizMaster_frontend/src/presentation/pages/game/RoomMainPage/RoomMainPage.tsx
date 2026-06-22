@@ -17,6 +17,7 @@ export const RoomMainPage = () => {
           currentQuestion={vm.currentQuestion}
           isLastQuestion={vm.isLastQuestion}
           answers={vm.answers}
+          questionNumber={vm.questionNumber}
         />
       )}
       {vm.hostId !== vm.userId && (
@@ -29,6 +30,7 @@ export const RoomMainPage = () => {
           currentQuestion={vm.currentQuestion}
           answers={vm.answers}
           userId={vm.userId}
+          questionNumber={vm.questionNumber}
         />
       )}
     </div>

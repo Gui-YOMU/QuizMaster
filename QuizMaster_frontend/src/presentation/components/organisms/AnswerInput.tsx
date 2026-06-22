@@ -1,16 +1,18 @@
+import type { Socket } from "socket.io-client";
 import type { Answer } from "../../../core/domain/entities/Answer";
 import { QCMAnswerInput } from "./answerInputTypes/QCMAnswerInput";
 
 interface AnswerInputProps {
   answers: Answer[];
   questionType: string;
+  socket: Socket | null;
 }
 
-export const AnswerInput = ({ answers, questionType }: AnswerInputProps) => {
+export const AnswerInput = ({ answers, questionType, socket }: AnswerInputProps) => {
 
   switch (questionType) {
     case "QCM":
-      return <QCMAnswerInput answers={answers} />;
+      return <QCMAnswerInput answers={answers} socket={socket} />;
       break;
 
     default:

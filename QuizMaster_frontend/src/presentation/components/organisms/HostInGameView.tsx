@@ -11,27 +11,38 @@ import { useNavigate } from "react-router";
 import type { Question } from "../../../core/domain/entities/Question";
 
 interface HostInGameViewProps {
-    quizStarted: boolean,
-    quizEnded: boolean,
-    roomCode: string | undefined,
-    playersList: { id: number; name: string; score: number }[],
-    socket: Socket | null,
-    currentQuestion: Question | null,
-    isLastQuestion: boolean,
-    answers: Answer[],
+  quizStarted: boolean;
+  quizEnded: boolean;
+  roomCode: string | undefined;
+  playersList: { id: number; name: string; score: number }[];
+  socket: Socket | null;
+  currentQuestion: Question | null;
+  isLastQuestion: boolean;
+  answers: Answer[];
+  questionNumber: number;
 }
 
-export const HostInGameView = ({quizStarted, quizEnded, roomCode, playersList, socket, currentQuestion, isLastQuestion, answers}: HostInGameViewProps) => {
-    const Navigate = useNavigate();
+export const HostInGameView = ({
+  quizStarted,
+  quizEnded,
+  roomCode,
+  playersList,
+  socket,
+  currentQuestion,
+  isLastQuestion,
+  answers,
+  questionNumber,
+}: HostInGameViewProps) => {
+  const Navigate = useNavigate();
 
-    return (
+  return (
     <div className="w-full h-full flex flex-col justify-start gap-5">
       <div>
         <IconButton
           border={true}
           onClick={() => {
             socket?.emit("host-leave-room");
-      Navigate("/creatorDashboard");
+            Navigate("/creatorDashboard");
           }}
           icon={<X size={40} color="white" />}
           bgColor="bg-error"
@@ -53,10 +64,10 @@ export const HostInGameView = ({quizStarted, quizEnded, roomCode, playersList, s
                   <Card
                     key={player.id}
                     bgColor="bg-mainblue"
-                    width="w-50"
-                    height="h-50"
+                    width="w-fit"
+                    height="h-fit"
                   >
-                    <p>{player.name}</p>
+                    <Title color="text-white" content={player.name} />
                   </Card>
                 ))}
               </div>
@@ -93,6 +104,8 @@ export const HostInGameView = ({quizStarted, quizEnded, roomCode, playersList, s
                 subject={currentQuestion.subject ?? ""}
                 answers={answers}
                 playerAnswering={false}
+                questionNumber={questionNumber}
+                socket={socket}
               />
             )}
           </div>
@@ -131,4 +144,4 @@ export const HostInGameView = ({quizStarted, quizEnded, roomCode, playersList, s
       )}
     </div>
   );
-}
+};

@@ -19,6 +19,7 @@ export function useRoomMainPageViewModel() {
   >([]);
 
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
+  const [questionNumber, setQuestionNumber] = useState(0);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [isLastQuestion, setIsLastQuestion] = useState(false);
   const [quizEnded, setQuizEnded] = useState(false);
@@ -35,11 +36,12 @@ export function useRoomMainPageViewModel() {
       setPlayersList(players);
     });
 
-    socket?.on("view-question", ({ question, answers, isLastQuestion }) => {
+    socket?.on("view-question", ({ question, answers, isLastQuestion, questionNumber }) => {
       setCurrentQuestion(question);
       setAnswers(answers);
       setQuizStarted(true);
       setIsLastQuestion(isLastQuestion);
+      setQuestionNumber(questionNumber)
     });
 
     socket?.on("quiz-ended", ({ players }) => {
@@ -64,5 +66,6 @@ export function useRoomMainPageViewModel() {
     quizEnded,
     roomCode,
     socket,
+    questionNumber,
   };
 }

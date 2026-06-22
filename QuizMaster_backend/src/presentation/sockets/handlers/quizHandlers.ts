@@ -37,6 +37,7 @@ export const quizHandlers = (io: Server, socket: Socket) => {
       question: room.questions[room.currentQuestion],
       answers: room.answers,
       isLastQuestion,
+      questionNumber: room.currentQuestion + 1
     });
 
     console.log(`Question ${room.currentQuestion + 1} affichée`);
@@ -72,6 +73,7 @@ export const quizHandlers = (io: Server, socket: Socket) => {
       question: room.questions[room.currentQuestion],
       answers: room.answers,
       isLastQuestion,
+      questionNumber: room.currentQuestion + 1
     });
 
     console.log(`Question ${room.currentQuestion + 1} affichée`);

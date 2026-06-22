@@ -1,8 +1,10 @@
+import type { Socket } from "socket.io-client";
 import type { Answer } from "../../../../core/domain/entities/Answer";
-import { Card } from "../../atoms/Card";
+import { Button } from "../../atoms/Button";
 
 interface QCMAnswerInputProps {
   answers: Answer[];
+  socket: Socket | null;
 }
 
 const PROPOSITIONS_CARDS = [
@@ -14,27 +16,22 @@ const PROPOSITIONS_CARDS = [
   { letter: "F", bgColor: "bg-black" },
 ];
 
-export const QCMAnswerInput = ({ answers }: QCMAnswerInputProps) => {
+export const QCMAnswerInput = ({ answers, socket }: QCMAnswerInputProps) => {
+  const onAnswering = (isGoodAnswer: boolean) => {
+    isGoodAnswer ? console.log(`Bonne réponse cliquée`) : console.log(`Mauvaise réponse cliquée`);
+    socket?.emit("player-answer", {isGoodAnswer});
+  };
+
   return (
     <div className="grid grid-cols-2 gap-2 h-full">
       {answers.map((answer, index) => (
-        <Card
+        <Button
+          key={answer.id}
           bgColor={PROPOSITIONS_CARDS[index].bgColor}
           width="w-full"
-          height="h-30"
-        >
-          <div className="w-full flex items-center">
-            <div className="flex justify-center items-center border border-white bg-white rounded-full justify-self-start w-10 h-10">
-              <h2 className="text-black text-xl">
-                {PROPOSITIONS_CARDS[index].letter}
-              </h2>
-            </div>
-
-            <p className="w-full font-bold text-white text-center">
-              {answer.value}
-            </p>
-          </div>
-        </Card>
+          content={answer.value}
+          onClick={() => onAnswering(answer.isGoodAnswer)}
+        />
       ))}
     </div>
   );

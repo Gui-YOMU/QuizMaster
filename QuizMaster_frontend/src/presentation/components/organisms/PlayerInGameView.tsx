@@ -18,9 +18,10 @@ interface PlayerInGameViewProps {
     currentQuestion: Question | null,
     answers: Answer[],
     userId: string | null,
+    questionNumber: number;
 }
 
-export const PlayerInGameView = ({quizStarted, quizEnded, roomCode, playersList, socket, currentQuestion, answers, userId}: PlayerInGameViewProps) => {
+export const PlayerInGameView = ({quizStarted, quizEnded, roomCode, playersList, socket, currentQuestion, answers, userId, questionNumber}: PlayerInGameViewProps) => {
     const Navigate = useNavigate();
 
     const player = playersList.find((player) => player.id === parseInt(userId ? userId : "0"));
@@ -40,7 +41,7 @@ export const PlayerInGameView = ({quizStarted, quizEnded, roomCode, playersList,
       </div>
       {!quizStarted && !quizEnded && (
         <div className="w-full h-full flex justify-center items-center">
-          <Card bgColor="bg-warning" width="w-1/4" height="h-40">
+          <Card bgColor="bg-warning" width="w-3/4" height="h-fit">
             <CardTitle content="En attente du début du quiz" />
             <Title content={`${roomCode}`} color="text-black" />
           </Card>
@@ -55,6 +56,8 @@ export const PlayerInGameView = ({quizStarted, quizEnded, roomCode, playersList,
               subject={currentQuestion.subject ?? ""}
               answers={answers}
               playerAnswering={true}
+              questionNumber={questionNumber}
+              socket={socket}
             />
           )}
         </div>
