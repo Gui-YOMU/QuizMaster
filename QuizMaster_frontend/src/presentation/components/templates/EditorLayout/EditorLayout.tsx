@@ -14,7 +14,7 @@ export const EditorLayout = () => {
       {vm.isPending && <span>Loading ...</span>}
       {vm.isError && <span>Erreur !</span>}
       {vm.questionsList && (
-        <main className="w-full h-full">
+        <main className="w-full h-full flex min-h-0">
           <div className="hidden w-full h-full min-h-0 p-4 lg:flex justify-center items-center gap-4">
             <EditorSideBar
               questionsList={vm.questionsList}
