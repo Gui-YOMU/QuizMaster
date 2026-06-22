@@ -7,22 +7,11 @@ import { AnswerRepository } from "../../../core/infrastructure/repositories/Answ
 
 export const quizHandlers = (io: Server, socket: Socket) => {
   socket.on("start-quiz", async ({ roomCode }: { roomCode: string }) => {
-    console.log("start-quiz reçu, roomCode:", roomCode, "socket:", socket.id);
-    console.log("rooms:", rooms);
-    console.log("roomCode cherché:", roomCode);
     const room = rooms[roomCode];
-    console.log("room:", room);
     if (!room) {
       return socket.emit("room-error", { message: "Salle inexistante." });
     }
-    console.log(
-      "room.host:",
-      room.host,
-      "socket.id:",
-      socket.id,
-      "match:",
-      room.host === socket.id,
-    );
+    
     if (room.host !== socket.id) {
       return socket.emit("host-error", {
         message: "Seul l'hôte peut démarrer le quiz.",
@@ -32,10 +21,11 @@ export const quizHandlers = (io: Server, socket: Socket) => {
     const questions = await new GetAllQuestionsByQuiz(
       new QuestionRepository(),
     ).execute(room.quizId);
-    console.log("questions:", questions);
 
     room.questions = questions;
     room.currentQuestion = 0;
+
+    const isLastQuestion = room.currentQuestion === room.questions.length - 1
 
     const answers = await new GetAllAnswersByQuestion(
       new AnswerRepository(),
@@ -46,6 +36,7 @@ export const quizHandlers = (io: Server, socket: Socket) => {
     io.to(roomCode).emit("view-question", {
       question: room.questions[room.currentQuestion],
       answers: room.answers,
+      isLastQuestion,
     });
 
     console.log(`Question ${room.currentQuestion + 1} affichée`);
@@ -64,8 +55,10 @@ export const quizHandlers = (io: Server, socket: Socket) => {
 
     room.currentQuestion++;
 
+    const isLastQuestion = room.currentQuestion === room.questions.length - 1
+
     if (room.currentQuestion >= room.questions.length) {
-      io.to(roomCode).emit("quiz-ended", room.players);
+      io.to(roomCode).emit("quiz-ended", {players: room.players});
       return;
     }
 
@@ -78,6 +71,7 @@ export const quizHandlers = (io: Server, socket: Socket) => {
     io.to(roomCode).emit("view-question", {
       question: room.questions[room.currentQuestion],
       answers: room.answers,
+      isLastQuestion,
     });
 
     console.log(`Question ${room.currentQuestion + 1} affichée`);

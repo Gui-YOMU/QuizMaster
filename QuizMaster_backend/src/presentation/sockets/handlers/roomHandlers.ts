@@ -26,8 +26,6 @@ export const roomHandlers = (io: Server, socket: Socket) => {
       answers: [],
     };
 
-    console.log("rooms après création:", rooms);
-
     socket.join(roomCode);
 
     socket.emit("room-created", { roomCode, hostId });
@@ -36,7 +34,6 @@ export const roomHandlers = (io: Server, socket: Socket) => {
   });
 
   socket.on("get-room-info", ({ roomCode }) => {
-    console.log("rooms au moment de get-room-info:", rooms);
     const room = rooms[roomCode];
     if (!room) {
       return socket.emit("room-error", { message: "Salle inexistante" });

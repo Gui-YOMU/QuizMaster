@@ -27,6 +27,8 @@ export const RoomMainPage = () => {
 
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
   const [answers, setAnswers] = useState<Answer[]>([]);
+  const [isLastQuestion, setIsLastQuestion] = useState(false);
+  const [quizEnd, setQuizEnd] = useState(false);
 
   const [quizStarted, setQuizStarted] = useState(false);
 
@@ -40,10 +42,16 @@ export const RoomMainPage = () => {
       setPlayersList(players);
     });
 
-    socket?.on("view-question", ({ question, answers }) => {
+    socket?.on("view-question", ({ question, answers, isLastQuestion }) => {
       setCurrentQuestion(question);
       setAnswers(answers);
       setQuizStarted(true);
+      setIsLastQuestion(isLastQuestion);
+    });
+
+    socket?.on("quiz-ended", ({ players }) => {
+      setPlayersList(players);
+      setQuizEnd(true);
     });
 
     return () => {
@@ -129,7 +137,9 @@ export const RoomMainPage = () => {
           <div>
             <Button
               bgColor="bg-mainblue"
-              content="Question suivante"
+              content={
+                isLastQuestion ? "Terminer le quiz" : "Question suivante"
+              }
               width="w-fit"
               onClick={() => {
                 socket?.emit("next-question", {
@@ -142,17 +152,30 @@ export const RoomMainPage = () => {
       )}
       {quizStarted && hostId !== userId && (
         <div>
-          <div>
-            {currentQuestion && (
-              <QuestionView
-                {...currentQuestion}
-                type={currentQuestion.type ?? ""}
-                subject={currentQuestion.subject ?? ""}
-                answers={answers}
-                playerAnswering={true}
-              />
-            )}
-          </div>
+          {currentQuestion && (
+            <QuestionView
+              {...currentQuestion}
+              type={currentQuestion.type ?? ""}
+              subject={currentQuestion.subject ?? ""}
+              answers={answers}
+              playerAnswering={true}
+            />
+          )}
+        </div>
+      )}
+      {quizEnd && (
+        <div>
+          {playersList.map((player) => (
+            <Card
+              key={player.id}
+              bgColor="bg-mainblue"
+              width="w-50"
+              height="h-50"
+            >
+              <p>{player.name}</p>
+              <p>{player.score}</p>
+            </Card>
+          ))}
         </div>
       )}
     </>
