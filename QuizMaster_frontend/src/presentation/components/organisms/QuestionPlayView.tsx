@@ -5,7 +5,6 @@ import { AnswerView } from "./AnswerView";
 import { AnswerInput } from "./AnswerInput";
 import type { Socket } from "socket.io-client";
 import { useEffect, useState } from "react";
-import { ResultModal } from "./ResultModal";
 
 interface QuestionPlayViewProps {
   subject: string;
@@ -36,8 +35,6 @@ export const QuestionPlayView = ({
 }: QuestionPlayViewProps) => {
   const [timeLeft, setTimeLeft] = useState(timer);
   const [timerRunning, setTimerRunning] = useState(false);
-  const [answerResult, setAnswerResult] = useState<"good" | "bad" | null>(null);
-  const [timerEnded, setTimerEnded] = useState(false);
 
   const barColor = () => {
     const ratio = timeLeft / timer;
@@ -54,39 +51,26 @@ export const QuestionPlayView = ({
     setTimeLeft(timer);
     setTimerRunning(false);
 
-    socket?.on("timer", ({ timeLeft }) => {
+    const onTimer = ({ timeLeft }: { timeLeft: number }) => {
       setTimerRunning(true);
       setTimeLeft(timeLeft);
-    });
+    };
+
+    socket?.on("timer", onTimer);
 
     return () => {
-      socket?.off("timer");
+      socket?.off("timer", onTimer);
     };
   }, [socket, questionNumber]);
 
   useEffect(() => {
-    setAnswerResult(null);
-    setTimerEnded(false);
-  }, [questionNumber]);
-
-  useEffect(() => {
-    socket?.on("good-answer", () => setAnswerResult("good"));
-    socket?.on("bad-answer", () => setAnswerResult("bad"));
-
-    return () => {
-      socket?.off("good-answer");
-      socket?.off("bad-answer");
-    };
-  }, [socket]);
-
-  useEffect(() => {
-    socket?.on("timer-ended", () => {
+    const onTimerEnded = () => {
       setTimerRunning(false);
-      setTimerEnded(true);
-    });
+    };
+    socket?.on("timer-ended", onTimerEnded);
 
     return () => {
-      socket?.off("timer-ended");
+      socket?.off("timer-ended", onTimerEnded);
     };
   }, [socket]);
 
@@ -142,9 +126,6 @@ export const QuestionPlayView = ({
           />
         )}
       </div>
-      {timerEnded && answerResult === "good" && <ResultModal status="good" />}
-      {timerEnded && answerResult === "bad" && <ResultModal status="bad" />}
-      {timerEnded && !answerResult && <ResultModal status="timeout" />}
     </div>
   );
 };

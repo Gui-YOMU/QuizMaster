@@ -8,6 +8,8 @@ import { Card } from "../atoms/Card";
 import { CardTitle } from "../atoms/CardTitle";
 import { Title } from "../atoms/Title";
 import { QuestionPlayView } from "./QuestionPlayView";
+import { useEffect, useState } from "react";
+import { ResultModal } from "./ResultModal";
 
 interface PlayerInGameViewProps {
   quizStarted: boolean;
@@ -36,8 +38,29 @@ export const PlayerInGameView = ({
 
   const player = playersList.find((player) => player.id === (userId ?? "0"));
 
-  console.log("playersList:", playersList);
-  console.log("userId parsé:", parseInt(userId ?? "0"));
+  const [answerResult, setAnswerResult] = useState<"good" | "bad" | null>(null);
+  const [timerEnded, setTimerEnded] = useState(false);
+
+  useEffect(() => {
+    setAnswerResult(null);
+    setTimerEnded(false);
+  }, [questionNumber]);
+
+  useEffect(() => {
+    const onTimerEnded = () => {
+      setTimerEnded(true);
+    };
+    socket?.on("good-answer", () => setAnswerResult("good"));
+    socket?.on("bad-answer", () => setAnswerResult("bad"));
+
+    socket?.on("timer-ended", onTimerEnded);
+
+    return () => {
+      socket?.off("good-answer");
+      socket?.off("bad-answer");
+      socket?.off("timer-ended", onTimerEnded);
+    };
+  }, [socket]);
 
   return (
     <div className="w-full h-full flex flex-col justify-start gap-5">
@@ -75,6 +98,11 @@ export const PlayerInGameView = ({
               roomCode={roomCode}
             />
           )}
+          {timerEnded && answerResult === "good" && (
+            <ResultModal status="good" />
+          )}
+          {timerEnded && answerResult === "bad" && <ResultModal status="bad" />}
+          {timerEnded && !answerResult && <ResultModal status="timeout" />}
         </div>
       )}
       {quizEnded && (
