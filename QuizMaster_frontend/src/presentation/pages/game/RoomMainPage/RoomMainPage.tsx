@@ -8,7 +8,9 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { QuestionView } from "../../../components/organisms/QuestionView";
 import { Answer } from "../../../../core/domain/entities/Answer";
 import { IconButton } from "../../../components/atoms/IconButton";
-import { X } from "lucide-react";
+import { Play, X } from "lucide-react";
+import { CardTitle } from "../../../components/atoms/CardTitle";
+import { Title } from "../../../components/atoms/Title";
 
 export const RoomMainPage = () => {
   const { userId } = useAuth();
@@ -28,7 +30,7 @@ export const RoomMainPage = () => {
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [isLastQuestion, setIsLastQuestion] = useState(false);
-  const [quizEnd, setQuizEnd] = useState(false);
+  const [quizEnded, setQuizEnded] = useState(false);
 
   const [quizStarted, setQuizStarted] = useState(false);
 
@@ -51,7 +53,7 @@ export const RoomMainPage = () => {
 
     socket?.on("quiz-ended", ({ players }) => {
       setPlayersList(players);
-      setQuizEnd(true);
+      setQuizEnded(true);
     });
 
     return () => {
@@ -72,7 +74,7 @@ export const RoomMainPage = () => {
   };
 
   return (
-    <>
+    <div className="w-full h-full flex flex-col justify-start gap-5">
       <div>
         <IconButton
           border={true}
@@ -81,29 +83,37 @@ export const RoomMainPage = () => {
           bgColor="bg-error"
         />
       </div>
-      {!quizStarted && (
-        <div>
-          <h1>Accueil de la salle</h1>
-          <div>{`Code de la salle : ${roomCode}`}</div>
-          <h2>Liste des joueurs : </h2>
-          <div>
-            {playersList.map((player) => (
-              <Card
-                key={player.id}
-                bgColor="bg-mainblue"
-                width="w-50"
-                height="h-50"
-              >
-                <p>{player.name}</p>
-              </Card>
-            ))}
+      {(!quizStarted && !quizEnded) && (
+        <div className="w-full h-full flex flex-col justify-center items-center">
+          <div className="w-full h-full flex justify-center items-center">
+            <Card bgColor="bg-maingold" width="w-1/4" height="h-40">
+              <CardTitle content="Code de la salle" />
+              <Title content={`${roomCode}`} color="text-black" />
+            </Card>
           </div>
-          <div>
+          <div className="w-full h-full flex justify-center items-center">
+            <Card bgColor="bg-mainpurple" width="w-4/5" height="h-full">
+              <CardTitle content="Liste des joueurs" />
+              <div className="grid grid-cols-5">
+                {playersList.map((player) => (
+                  <Card
+                    key={player.id}
+                    bgColor="bg-mainblue"
+                    width="w-50"
+                    height="h-50"
+                  >
+                    <p>{player.name}</p>
+                  </Card>
+                ))}
+              </div>
+            </Card>
+          </div>
+          <div className="w-full h-full flex justify-center items-center">
             {hostId === userId && (
-              <Button
-                bgColor="bg-mainblue"
-                content="Démarrer le quiz"
-                width="w-fit"
+              <IconButton
+                bgColor="bg-success"
+                icon={<Play size={60} color="" fill="white"/>}
+                border={false}
                 onClick={() => {
                   console.log(`Commencer le quiz de la salle ${roomCode}`);
                   console.log(
@@ -121,9 +131,9 @@ export const RoomMainPage = () => {
           </div>
         </div>
       )}
-      {quizStarted && hostId === userId && (
-        <div>
-          <div>
+      {(quizStarted && !quizEnded) && hostId === userId && (
+        <div className="w-full h-full flex flex-col">
+          <div className="h-9/10">
             {currentQuestion && (
               <QuestionView
                 {...currentQuestion}
@@ -142,6 +152,8 @@ export const RoomMainPage = () => {
               }
               width="w-fit"
               onClick={() => {
+                console.log(quizEnded);
+                
                 socket?.emit("next-question", {
                   roomCode,
                 });
@@ -150,8 +162,8 @@ export const RoomMainPage = () => {
           </div>
         </div>
       )}
-      {quizStarted && hostId !== userId && (
-        <div>
+      {(quizStarted && !quizEnded) && hostId !== userId && (
+        <div className="w-full h-full">
           {currentQuestion && (
             <QuestionView
               {...currentQuestion}
@@ -163,7 +175,7 @@ export const RoomMainPage = () => {
           )}
         </div>
       )}
-      {quizEnd && (
+      {(quizStarted && quizEnded) && (
         <div>
           {playersList.map((player) => (
             <Card
@@ -178,6 +190,6 @@ export const RoomMainPage = () => {
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 };
