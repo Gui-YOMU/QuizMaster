@@ -1,10 +1,13 @@
 import type { Socket } from "socket.io-client";
 import type { Answer } from "../../../../core/domain/entities/Answer";
 import { Button } from "../../atoms/Button";
+import { useEffect, useState } from "react";
 
 interface QCMAnswerInputProps {
   answers: Answer[];
   socket: Socket | null;
+  playerId: string | null | undefined;
+  roomCode?: string;
 }
 
 const PROPOSITIONS_CARDS = [
@@ -16,10 +19,25 @@ const PROPOSITIONS_CARDS = [
   { letter: "F", bgColor: "bg-black" },
 ];
 
-export const QCMAnswerInput = ({ answers, socket }: QCMAnswerInputProps) => {
-  const onAnswering = (isGoodAnswer: boolean) => {
-    isGoodAnswer ? console.log(`Bonne réponse cliquée`) : console.log(`Mauvaise réponse cliquée`);
-    socket?.emit("player-answer", {isGoodAnswer});
+export const QCMAnswerInput = ({
+  answers,
+  socket,
+  playerId,
+  roomCode,
+}: QCMAnswerInputProps) => {
+  const [hasAnswered, setHasAnswered] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+
+  useEffect(() => {
+    setHasAnswered(false);
+    setSelectedAnswer(null);
+  }, [answers]);
+
+  const onAnswering = (isGoodAnswer: boolean, answerId: number | null) => {
+    if (hasAnswered) return;
+    setHasAnswered(true);
+    setSelectedAnswer(answerId);
+    socket?.emit("player-answer", { isGoodAnswer, playerId, roomCode });
   };
 
   return (
@@ -28,9 +46,10 @@ export const QCMAnswerInput = ({ answers, socket }: QCMAnswerInputProps) => {
         <Button
           key={answer.id}
           bgColor={PROPOSITIONS_CARDS[index].bgColor}
+          opacity={hasAnswered && selectedAnswer !== answer.id ? "opacity-50" : ""}
           width="w-full"
           content={answer.value}
-          onClick={() => onAnswering(answer.isGoodAnswer)}
+          onClick={() => onAnswering(answer.isGoodAnswer, answer.id)}
         />
       ))}
     </div>

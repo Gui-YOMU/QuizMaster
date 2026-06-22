@@ -15,6 +15,8 @@ interface QuestionPlayViewProps {
   playerAnswering: boolean;
   questionNumber: number;
   socket: Socket | null;
+  playerId?: string | null;
+  roomCode?: string;
 }
 
 export const QuestionPlayView = ({
@@ -27,6 +29,8 @@ export const QuestionPlayView = ({
   playerAnswering,
   questionNumber,
   socket,
+  playerId,
+  roomCode,
 }: QuestionPlayViewProps) => {
   return (
     <div className="h-full flex flex-col justify-between">
@@ -61,7 +65,7 @@ export const QuestionPlayView = ({
           <AnswerView questionType={type} answers={answers} />
         )}
         {playerAnswering && (
-          <AnswerInput questionType={type} answers={answers} socket={socket} />
+          <AnswerInput questionType={type} answers={answers} socket={socket} playerId={playerId} roomCode={roomCode} />
         )}
       </div>
     </div>

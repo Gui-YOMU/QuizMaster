@@ -58,6 +58,8 @@ export const PlayerInGameView = ({quizStarted, quizEnded, roomCode, playersList,
               playerAnswering={true}
               questionNumber={questionNumber}
               socket={socket}
+              playerId={userId}
+              roomCode={roomCode}
             />
           )}
         </div>
