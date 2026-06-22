@@ -7,17 +7,32 @@ import { AnswerRepository } from "../../../core/infrastructure/repositories/Answ
 
 export const quizHandlers = (io: Server, socket: Socket) => {
   socket.on("start-quiz", async ({ roomCode }: { roomCode: string }) => {
+    console.log("start-quiz reçu, roomCode:", roomCode, "socket:", socket.id);
+    console.log("rooms:", rooms);
+    console.log("roomCode cherché:", roomCode);
     const room = rooms[roomCode];
+    console.log("room:", room);
     if (!room) {
-      return socket.emit("error", "Salle inexistante.");
+      return socket.emit("room-error", { message: "Salle inexistante." });
     }
+    console.log(
+      "room.host:",
+      room.host,
+      "socket.id:",
+      socket.id,
+      "match:",
+      room.host === socket.id,
+    );
     if (room.host !== socket.id) {
-      return socket.emit("error", "Seul l'hôte peut démarrer le quiz.");
+      return socket.emit("host-error", {
+        message: "Seul l'hôte peut démarrer le quiz.",
+      });
     }
 
     const questions = await new GetAllQuestionsByQuiz(
       new QuestionRepository(),
     ).execute(room.quizId);
+    console.log("questions:", questions);
 
     room.questions = questions;
     room.currentQuestion = 0;
@@ -28,7 +43,10 @@ export const quizHandlers = (io: Server, socket: Socket) => {
 
     room.answers = answers;
 
-    io.to(roomCode).emit("view-question", room.questions[room.currentQuestion], room.answers);
+    io.to(roomCode).emit("view-question", {
+      question: room.questions[room.currentQuestion],
+      answers: room.answers,
+    });
 
     console.log(`Question ${room.currentQuestion + 1} affichée`);
   });
@@ -36,13 +54,12 @@ export const quizHandlers = (io: Server, socket: Socket) => {
   socket.on("next-question", async ({ roomCode }: { roomCode: string }) => {
     const room = rooms[roomCode];
     if (!room) {
-      return socket.emit("error", "Salle inexistante.");
+      return socket.emit("room-error", { message: "Salle inexistante." });
     }
     if (room.host !== socket.id) {
-      return socket.emit(
-        "error",
-        "Seul l'hôte peut passer à la question suivante.",
-      );
+      return socket.emit("host-error", {
+        message: "Seul l'hôte peut passer à la question suivante.",
+      });
     }
 
     room.currentQuestion++;
@@ -58,7 +75,10 @@ export const quizHandlers = (io: Server, socket: Socket) => {
 
     room.answers = answers;
 
-    io.to(roomCode).emit("view-question", room.questions[room.currentQuestion], room.answers);
+    io.to(roomCode).emit("view-question", {
+      question: room.questions[room.currentQuestion],
+      answers: room.answers,
+    });
 
     console.log(`Question ${room.currentQuestion + 1} affichée`);
   });

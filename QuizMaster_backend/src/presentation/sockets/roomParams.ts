@@ -5,7 +5,7 @@ export type Player = { id: number; name: string; score: number };
 
 export type Room = {
   host: string;
-  hostId: number;
+  hostId: string;
   quizId: number;
   players: Player[];
   questions: QuestionEty[];

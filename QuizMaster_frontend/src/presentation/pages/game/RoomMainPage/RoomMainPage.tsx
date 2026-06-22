@@ -19,7 +19,7 @@ export const RoomMainPage = () => {
 
   const Navigate = useNavigate();
 
-  const [hostId, setHostId] = useState<number | null>(null);
+  const [hostId, setHostId] = useState<string>("");
 
   const [playersList, setPlayersList] = useState<
     { id: number; name: string; score: number }[]
@@ -31,12 +31,16 @@ export const RoomMainPage = () => {
   const [quizStarted, setQuizStarted] = useState(false);
 
   useEffect(() => {
-    socket?.on("players-list", (playersList, hostId) => {
+    socket?.emit("get-room-info", { roomCode });
+  }, [socket, roomCode]);
+
+  useEffect(() => {
+    socket?.on("players-list", ({ players, hostId }) => {
       setHostId(hostId);
-      setPlayersList(playersList);
+      setPlayersList(players);
     });
 
-    socket?.on("view-question", (question, answers) => {
+    socket?.on("view-question", ({ question, answers }) => {
       setCurrentQuestion(question);
       setAnswers(answers);
       setQuizStarted(true);
@@ -48,15 +52,23 @@ export const RoomMainPage = () => {
     };
   }, [socket]);
 
+  const onLeave = () => {
+    if (hostId === userId) {
+      socket?.emit("host-leave-room");
+      Navigate("/creatorDashboard");
+    }
+    if (hostId !== userId) {
+      socket?.emit("player-leave-room", { roomCode, playerId: userId });
+      Navigate("/playerDashboard");
+    }
+  };
+
   return (
     <>
       <div>
         <IconButton
           border={true}
-          onClick={() => {
-            socket?.emit("disconnect");
-            Navigate("/creatorDashboard")
-          }}
+          onClick={onLeave}
           icon={<X size={40} color="white" />}
           bgColor="bg-error"
         />
@@ -68,24 +80,36 @@ export const RoomMainPage = () => {
           <h2>Liste des joueurs : </h2>
           <div>
             {playersList.map((player) => (
-              <Card bgColor="bg-mainblue" width="w-50" height="h-50">
+              <Card
+                key={player.id}
+                bgColor="bg-mainblue"
+                width="w-50"
+                height="h-50"
+              >
                 <p>{player.name}</p>
               </Card>
             ))}
           </div>
           <div>
-            <Button
-              bgColor="bg-mainblue"
-              content="Démarrer le quiz"
-              width="w-fit"
-              onClick={() => {
-                console.log(`Commencer le quiz de la salle ${roomCode}`);
-
-                socket?.emit("start-quiz", {
-                  roomCode,
-                });
-              }}
-            />
+            {hostId === userId && (
+              <Button
+                bgColor="bg-mainblue"
+                content="Démarrer le quiz"
+                width="w-fit"
+                onClick={() => {
+                  console.log(`Commencer le quiz de la salle ${roomCode}`);
+                  console.log(
+                    "emit start-quiz, roomCode:",
+                    roomCode,
+                    "socket:",
+                    socket?.id,
+                  );
+                  socket?.emit("start-quiz", {
+                    roomCode,
+                  });
+                }}
+              />
+            )}
           </div>
         </div>
       )}

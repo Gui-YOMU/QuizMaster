@@ -97,7 +97,7 @@ export function useCreatorDashboardPageViewModel() {
   const onRoomSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     socket?.emit("create-room", { hostId: userId, quizId: selectedQuizId });
-    console.log(`Salle ${selectedQuizId} ouverte.`);
+    console.log(`Salle ${selectedQuizId} créée.`);
     socket?.on("room-created", ({ roomCode }: { roomCode: string }) => {
       console.log(roomCode);
       Navigate(`/roomMain/${roomCode}`)

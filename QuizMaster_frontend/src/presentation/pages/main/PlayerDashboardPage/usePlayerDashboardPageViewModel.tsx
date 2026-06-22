@@ -4,10 +4,13 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { useGame } from "../../../contexts/GameContext";
+import { useNavigate } from "react-router";
 
 export function usePlayerDashboardPageViewModel() {
   const { userId } = useAuth();
   const { socket } = useGame();
+
+  const Navigate = useNavigate();
 
   const [roomCode, setRoomCode] = useState("");
 
@@ -25,12 +28,18 @@ export function usePlayerDashboardPageViewModel() {
     e.preventDefault();
     socket?.emit("join-room", {
       roomCode,
-      playerId: data?.id,
+      playerId: userId,
       playerName: data?.surname
         ? data.surname
         : `${data?.firstName} ${data?.lastName}`,
     });
+    socket?.on("room-error", ({ message }: { message: string }) => {
+      console.error(message);
+      toast.error(message);
+      return;
+    });
     console.log(`Salle ${roomCode} rejointe`);
+    Navigate(`/roomMain/${roomCode}`)
   };
 
   return {
