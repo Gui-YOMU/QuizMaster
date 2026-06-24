@@ -18,8 +18,8 @@ services:
     env_file:
       - ./QuizMaster_backend/.env
     environment:
-      - DATABASE_URL=mysql://root:password@db:3306/quizmaster_db?allowPublicKeyRetrieval=true
-      - DATABASE_USER=root
+      - DATABASE_URL=mysql://quizmaster:password@db:3306/quizmaster_db?allowPublicKeyRetrieval=true
+      - DATABASE_USER=quizmaster
       - DATABASE_PASSWORD=password
       - DATABASE_NAME=quizmaster_db
       - DATABASE_HOST=db
