@@ -65,6 +65,8 @@ export const QuestionParamsPage = () => {
         />
       </div>
 
+      {/* Composant modulable */}
+      
       <h2 className="font-bold text-xl">Paramètres spécifiques</h2>
       <div className="w-full p-5">
         <AnswerParams questionType={vm.questionType} initialAnswers={vm.answers} onChangeAnswers={vm.setAnswers} />

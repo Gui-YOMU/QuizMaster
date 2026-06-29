@@ -17,6 +17,8 @@ export const AnswerParams = ({
     selectedQuestionId: number;
   }>();
 
+  // Switch du composant
+
   switch (questionType) {
     case "QCM":
       return (
